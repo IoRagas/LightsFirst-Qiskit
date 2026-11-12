@@ -287,6 +287,14 @@ def create_full_report(output_filename: str = "GreenGrid_AI_Hackathon_Report.doc
         p_cap.runs[0].font.italic = True
         p_cap.paragraph_format.space_after = Pt(12)
 
+    if os.path.exists("quantum_vs_classical_benchmark.png"):
+        doc.add_picture("quantum_vs_classical_benchmark.png", width=Inches(5.8))
+        p_cap2 = doc.add_paragraph("Figure 4: Comparative Optimization Benchmark: Classical Ground Truth vs. NISQ Qiskit QAOA.")
+        p_cap2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p_cap2.runs[0].font.size = Pt(9.0)
+        p_cap2.runs[0].font.italic = True
+        p_cap2.paragraph_format.space_after = Pt(12)
+
     # ------------------ SECTION 6: HONEST LIMITATIONS ------------------
     h1 = doc.add_heading(level=1)
     h1_run = h1.add_run("6. Honest Limitations & NISQ Hardware Analysis")

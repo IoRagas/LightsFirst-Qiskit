@@ -64,7 +64,12 @@ def run_quantum_benchmarks() -> Dict:
 
 def generate_benchmark_plots(macro_results: Dict, quantum_results: Dict):
     """Renders and saves high-resolution publication-quality figures."""
-    plt.style.use('seaborn-v0_8-whitegrid' if 'seaborn-v0_8-whitegrid' in plt.style.available else 'default')
+    plt.style.use('default')
+    plt.rcParams['figure.facecolor'] = '#FFFFFF'
+    plt.rcParams['axes.facecolor'] = '#FFFFFF'
+    plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Arial', 'Helvetica']
+    plt.rcParams['axes.edgecolor'] = '#CBD5E1'
+    plt.rcParams['grid.color'] = '#E2E8F0'
 
     # Figure 1: Macro Grid Workload Completion & Disruption Impact
     fig, ax1 = plt.subplots(figsize=(8.5, 4.5), dpi=300)
@@ -85,25 +90,26 @@ def generate_benchmark_plots(macro_results: Dict, quantum_results: Dict):
     x = np.arange(len(scenarios))
     width = 0.35
 
-    rects1 = ax1.bar(x - width/2, scheduled, width, label='Scheduled Workloads', color='#2ecc71')
-    rects2 = ax1.bar(x + width/2, postponed, width, label='Postponed Workloads (Step Aside)', color='#e74c3c')
+    rects1 = ax1.bar(x - width/2, scheduled, width, label='Scheduled Workloads', color='#059669')
+    rects2 = ax1.bar(x + width/2, postponed, width, label='Postponed Workloads (Step Aside)', color='#E11D48')
 
-    ax1.set_ylabel('Number of AI Jobs', fontsize=11, fontweight='bold')
-    ax1.set_title('Lights First: AI Workload Step-Aside & 100% Hospital Shield Across Disasters', fontsize=12, fontweight='bold', pad=12)
+    ax1.set_ylabel('Number of AI Jobs', fontsize=11, fontweight='bold', color='#0F172A')
+    ax1.set_title('Lights First: AI Workload Step-Aside & 100% Hospital Shield Across Disasters', fontsize=12, fontweight='bold', pad=12, color='#0F172A')
     ax1.set_xticks(x)
-    ax1.set_xticklabels(scenarios, fontsize=10, fontweight='bold')
-    ax1.legend(loc='upper right', frameon=True)
-    ax1.grid(True, linestyle='--', alpha=0.5)
+    ax1.set_xticklabels(scenarios, fontsize=10, fontweight='bold', color='#1E293B')
+    ax1.tick_params(colors='#334155')
+    ax1.legend(loc='upper right', frameon=True, facecolor='#F8FAFC', edgecolor='#CBD5E1')
+    ax1.grid(True, linestyle='--', alpha=0.7)
 
     # Label bars
     for rect in rects1:
         h = rect.get_height()
         ax1.annotate(f'{h}', xy=(rect.get_x() + rect.get_width() / 2, h), xytext=(0, 3),
-                    textcoords="offset points", ha='center', va='bottom', fontsize=9, fontweight='bold')
+                    textcoords="offset points", ha='center', va='bottom', fontsize=9.5, fontweight='bold', color='#065F46')
     for rect in rects2:
         h = rect.get_height()
         ax1.annotate(f'{h}', xy=(rect.get_x() + rect.get_width() / 2, h), xytext=(0, 3),
-                    textcoords="offset points", ha='center', va='bottom', fontsize=9, fontweight='bold')
+                    textcoords="offset points", ha='center', va='bottom', fontsize=9.5, fontweight='bold', color='#9F1239')
 
     plt.tight_layout()
     plt.savefig("disaster_workload_comparison.png", dpi=300)
@@ -113,14 +119,15 @@ def generate_benchmark_plots(macro_results: Dict, quantum_results: Dict):
     history = quantum_results.get("convergence_history", [])
     if history:
         fig, ax = plt.subplots(figsize=(7, 4), dpi=300)
-        ax.plot(range(1, len(history) + 1), history, marker='o', markersize=3, color='#3498db', linewidth=1.8, label='QAOA <H(γ, β)>')
+        ax.plot(range(1, len(history) + 1), history, marker='o', markersize=3.5, color='#0284C7', linewidth=2.0, label='QAOA <H(γ, β)>')
         exact_e = quantum_results["exact_baseline"]["best_energy"]
-        ax.axhline(exact_e, color='#e74c3c', linestyle='--', linewidth=1.5, label=f'Exact Ground Truth ({exact_e:.2f})')
-        ax.set_xlabel('COBYLA Classical Optimizer Iterations', fontsize=10, fontweight='bold')
-        ax.set_ylabel('Expectation Energy (Arbitrary Units)', fontsize=10, fontweight='bold')
-        ax.set_title('Qiskit QAOA Convergence Trajectory (8-Qubit Deficit QUBO, p=2)', fontsize=11, fontweight='bold', pad=10)
-        ax.legend(frameon=True)
-        ax.grid(True, linestyle='--', alpha=0.5)
+        ax.axhline(exact_e, color='#E11D48', linestyle='--', linewidth=1.6, label=f'Exact Ground Truth ({exact_e:.2f})')
+        ax.set_xlabel('COBYLA Classical Optimizer Iterations', fontsize=10, fontweight='bold', color='#0F172A')
+        ax.set_ylabel('Expectation Energy (Arbitrary Units)', fontsize=10, fontweight='bold', color='#0F172A')
+        ax.set_title('Qiskit QAOA Convergence Trajectory (8-Qubit Deficit QUBO, p=2)', fontsize=11, fontweight='bold', pad=10, color='#0F172A')
+        ax.tick_params(colors='#334155')
+        ax.legend(frameon=True, facecolor='#F8FAFC', edgecolor='#CBD5E1')
+        ax.grid(True, linestyle='--', alpha=0.7)
         plt.tight_layout()
         plt.savefig("qaoa_convergence.png", dpi=300)
         plt.close()
@@ -139,20 +146,20 @@ def generate_benchmark_plots(macro_results: Dict, quantum_results: Dict):
         quantum_results["runtime_ms"],
     ]
 
-    colors = ['#27ae60', '#f39c12', '#2980b9']
-    ax_e.bar(solvers, energies, color=colors, width=0.55)
-    ax_e.set_title('Objective Energy (Lower is Better)', fontsize=10, fontweight='bold')
-    ax_e.set_ylabel('Energy', fontsize=10)
-    ax_e.tick_params(axis='x', rotation=15)
-    ax_e.grid(True, linestyle='--', alpha=0.5)
+    colors = ['#059669', '#D97706', '#0284C7']
+    ax_e.bar(solvers, energies, color=colors, width=0.52)
+    ax_e.set_title('Objective Energy (Lower is Better)', fontsize=10, fontweight='bold', color='#0F172A')
+    ax_e.set_ylabel('Energy', fontsize=10, color='#0F172A')
+    ax_e.tick_params(axis='x', rotation=15, colors='#334155')
+    ax_e.grid(True, linestyle='--', alpha=0.7)
 
-    ax_t.bar(solvers, runtimes, color=colors, width=0.55)
-    ax_t.set_title('Solver Execution Latency (ms)', fontsize=10, fontweight='bold')
-    ax_t.set_ylabel('Milliseconds (ms)', fontsize=10)
-    ax_t.tick_params(axis='x', rotation=15)
-    ax_t.grid(True, linestyle='--', alpha=0.5)
+    ax_t.bar(solvers, runtimes, color=colors, width=0.52)
+    ax_t.set_title('Solver Execution Latency (ms)', fontsize=10, fontweight='bold', color='#0F172A')
+    ax_t.set_ylabel('Milliseconds (ms)', fontsize=10, color='#0F172A')
+    ax_t.tick_params(axis='x', rotation=15, colors='#334155')
+    ax_t.grid(True, linestyle='--', alpha=0.7)
 
-    plt.suptitle('Optimization Benchmark: Classical Ground Truth vs. NISQ Qiskit QAOA', fontsize=11, fontweight='bold')
+    plt.suptitle('Optimization Benchmark: Classical Ground Truth vs. NISQ Qiskit QAOA', fontsize=11, fontweight='bold', color='#0F172A')
     plt.tight_layout()
     plt.savefig("quantum_vs_classical_benchmark.png", dpi=300)
     plt.close()

@@ -36,12 +36,12 @@ st.markdown("""
     
     /* Top Banner */
     .app-header {
-        background: linear-gradient(135deg, #070D18 0%, #151F32 100%);
+        background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
         border-radius: 12px;
         padding: 20px 28px;
-        color: #F8FAFC;
+        color: #FFFFFF;
         margin-bottom: 20px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 16px -2px rgba(2, 132, 199, 0.2);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -54,18 +54,18 @@ st.markdown("""
     }
     .app-header-sub {
         font-size: 0.9rem;
-        color: #94A3B8;
+        color: #E0F2FE;
         margin-top: 4px;
     }
     .app-header-tag {
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.85rem;
         font-weight: 700;
-        background: #0369A1;
-        color: #E0F2FE;
+        background: rgba(255, 255, 255, 0.2);
+        color: #FFFFFF;
         padding: 8px 14px;
         border-radius: 8px;
-        border: 1px solid #0284C7;
+        border: 1px solid rgba(255, 255, 255, 0.4);
     }
     
     /* Step Control Panel */

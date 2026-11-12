@@ -21,13 +21,15 @@
                         mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
-                        cockpit: {
-                            base: '#080C14',
-                            surface: '#0F172A',
-                            card: '#131D31',
-                            border: '#1E293B',
-                            hover: '#1E293B',
-                            accent: '#0284C7',
+                        theme: {
+                            bg: '#F0F7FF',
+                            card: '#FFFFFF',
+                            border: '#E0F2FE',
+                            borderDark: '#CBD5E1',
+                            primary: '#0284C7',
+                            primaryHover: '#0369A1',
+                            navy: '#0F172A',
+                            slateMuted: '#64748B',
                         }
                     }
                 }
@@ -36,19 +38,19 @@
     </script>
     <style>
         body {
-            background-color: #080C14;
-            color: #E2E8F0;
+            background: linear-gradient(135deg, #F0F7FF 0%, #F8FAFC 100%);
+            color: #0F172A;
             overflow-x: hidden;
         }
         /* Custom Smooth Transitions */
         .smooth-fade {
-            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .anim-slide-up {
-            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(8px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .pulse-subtle {
@@ -56,45 +58,45 @@
         }
         @keyframes pulseSubtle {
             0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(0.98); }
+            50% { opacity: 0.55; transform: scale(0.96); }
         }
-        /* Custom Scrollbar for High Density Panels */
+        /* Custom Clean Scrollbar */
         ::-webkit-scrollbar {
             width: 5px;
             height: 5px;
         }
         ::-webkit-scrollbar-track {
-            background: #0B111E;
+            background: #F1F5F9;
         }
         ::-webkit-scrollbar-thumb {
-            background: #1E293B;
+            background: #CBD5E1;
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #334155;
+            background: #94A3B8;
+        }
+        .card-shadow {
+            box-shadow: 0 4px 16px -2px rgba(2, 132, 199, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
         }
         .glow-red {
-            box-shadow: 0 0 20px -3px rgba(239, 68, 68, 0.35);
+            box-shadow: 0 0 16px -2px rgba(239, 68, 68, 0.3);
         }
         .glow-emerald {
-            box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.35);
-        }
-        .glow-sky {
-            box-shadow: 0 0 20px -3px rgba(2, 132, 199, 0.35);
+            box-shadow: 0 0 16px -2px rgba(16, 185, 129, 0.3);
         }
     </style>
 </head>
-<body class="font-sans antialiased h-screen flex flex-col justify-between">
+<body class="font-sans antialiased h-screen flex flex-col justify-between selection:bg-sky-100 selection:text-sky-900">
 
-    <!-- Cockpit Navigation Bar (Slim, Fixed Height) -->
-    <header class="h-14 bg-[#0A0E1A] border-b border-slate-800/80 px-6 flex items-center justify-between z-20 shrink-0">
+    <!-- Clean Executive Navigation Bar (Slim, Fixed Height) -->
+    <header class="h-14 bg-white/90 backdrop-blur-md border-b border-sky-100 px-6 flex items-center justify-between z-20 shrink-0 shadow-sm">
         <div class="flex items-center gap-4">
-            <div class="h-8 w-8 rounded-lg bg-gradient-to-br from-sky-500 to-sky-700 flex items-center justify-center font-mono font-black text-sm text-white shadow-md shadow-sky-950">
+            <div class="h-8 w-8 rounded-lg bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center font-mono font-black text-sm text-white shadow-sm shadow-sky-200">
                 LF
             </div>
             <div class="flex items-center gap-3">
-                <span class="font-black text-base tracking-tight text-white">LIGHTS FIRST</span>
-                <span class="hidden sm:inline-block text-[11px] font-mono text-slate-400 bg-slate-900 border border-slate-800 px-2 py-0.5 rounded">
+                <span class="font-black text-base tracking-tight text-slate-900">LIGHTS FIRST</span>
+                <span class="hidden sm:inline-block text-[11px] font-mono font-bold text-sky-800 bg-sky-50 border border-sky-200 px-2.5 py-0.5 rounded-full">
                     ENERGY & SMART INFRASTRUCTURE | QISKIT 2026
                 </span>
             </div>
@@ -102,102 +104,102 @@
 
         <!-- Center Telemetry Badges -->
         <div class="hidden md:flex items-center gap-6 font-mono text-xs">
-            <div class="flex items-center gap-2 text-emerald-400">
+            <div class="flex items-center gap-2 text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-md">
                 <span class="h-2 w-2 rounded-full bg-emerald-500 pulse-subtle"></span>
-                <span class="text-slate-400">SYSTEM:</span>
+                <span class="text-slate-500">SYSTEM:</span>
                 <span class="font-bold">GRID ONLINE</span>
             </div>
-            <div class="flex items-center gap-2 text-slate-300">
+            <div class="flex items-center gap-2 text-slate-600 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-md">
                 <span class="text-slate-400">FREQUENCY:</span>
-                <span class="font-bold font-mono text-sky-400" id="topFreq">50.00 Hz</span>
+                <span class="font-bold font-mono text-sky-700" id="topFreq">50.00 Hz</span>
             </div>
-            <div class="flex items-center gap-2 text-slate-300">
-                <span class="text-slate-400">HOSPITALS:</span>
-                <span class="font-bold font-mono text-emerald-400">100% SHIELDED</span>
+            <div class="flex items-center gap-2 text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-md">
+                <span class="text-slate-500">HOSPITALS:</span>
+                <span class="font-bold font-mono text-emerald-700">100% SHIELDED</span>
             </div>
         </div>
 
         <!-- Right Links -->
         <div class="flex items-center gap-3">
-            <a href="https://github.com/IoRagas/LightsFirst-Qiskit" target="_blank" class="text-xs font-mono font-bold bg-slate-900 hover:bg-slate-800 text-sky-400 border border-slate-800 px-3.5 py-1.5 rounded-lg transition shadow-sm flex items-center gap-1.5">
+            <a href="https://github.com/IoRagas/LightsFirst-Qiskit" target="_blank" class="text-xs font-mono font-bold bg-white hover:bg-sky-50 text-sky-700 border border-sky-200 hover:border-sky-300 px-3.5 py-1.5 rounded-lg transition shadow-sm flex items-center gap-1.5">
                 <span>GitHub Codebase</span>
-                <span class="text-slate-500 font-sans">↗</span>
+                <span class="text-sky-500 font-sans">↗</span>
             </a>
         </div>
     </header>
 
     <!-- Main Panoramic Cockpit (Horizontal 3-Column Layout, Fills Viewport) -->
-    <main class="flex-1 p-3 sm:p-4 gap-3 grid grid-cols-1 lg:grid-cols-12 overflow-hidden min-h-0">
+    <main class="flex-1 p-3 sm:p-4 gap-3.5 grid grid-cols-1 lg:grid-cols-12 overflow-hidden min-h-0">
 
         <!-- ==================== LEFT PANEL: TIMELINE & HERO METRICS (3 Cols) ==================== -->
         <section class="lg:col-span-3 flex flex-col gap-3 h-full min-h-0">
             
             <!-- Controls Card -->
-            <div class="bg-cockpit-card border border-slate-800 rounded-xl p-4 flex flex-col gap-3 shadow-md shrink-0">
+            <div class="bg-white border border-sky-100 rounded-xl p-4 flex flex-col gap-3 card-shadow shrink-0">
                 <div class="flex justify-between items-center">
-                    <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400">Execution Controls</span>
-                    <button id="autoPlayBtn" onclick="toggleAutoPlay()" class="text-[11px] font-mono font-bold bg-slate-900 hover:bg-slate-800 text-sky-400 border border-slate-700 px-2.5 py-1 rounded transition">
+                    <span class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-500">Execution Controls</span>
+                    <button id="autoPlayBtn" onclick="toggleAutoPlay()" class="text-[11px] font-mono font-bold bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 px-2.5 py-1 rounded-md transition">
                         Auto-Advance
                     </button>
                 </div>
 
                 <!-- Primary Action Button -->
-                <button id="nextBtn" onclick="nextStep()" class="w-full py-3 px-4 bg-sky-600 hover:bg-sky-500 active:scale-[0.98] text-white font-extrabold text-sm rounded-xl shadow-lg shadow-sky-950/60 transition flex items-center justify-between">
+                <button id="nextBtn" onclick="nextStep()" class="w-full py-3 px-4 bg-sky-600 hover:bg-sky-700 active:scale-[0.98] text-white font-extrabold text-sm rounded-xl shadow-md shadow-sky-200 transition-all duration-200 flex items-center justify-between">
                     <span id="nextBtnText">ADVANCE SIMULATION</span>
                     <span class="font-mono text-sky-200 text-base">→</span>
                 </button>
 
                 <div class="grid grid-cols-2 gap-2">
-                    <button id="prevBtn" onclick="prevStep()" class="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 rounded-lg text-xs font-mono font-bold transition disabled:opacity-30">
+                    <button id="prevBtn" onclick="prevStep()" class="py-2 px-3 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-lg text-xs font-mono font-bold transition disabled:opacity-40 shadow-sm">
                         ← Previous
                     </button>
-                    <button onclick="resetSimulation()" class="py-2 px-3 bg-slate-900 hover:bg-slate-800 text-slate-400 border border-slate-800 rounded-lg text-xs font-mono font-bold transition">
+                    <button onclick="resetSimulation()" class="py-2 px-3 bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 rounded-lg text-xs font-mono font-bold transition shadow-sm">
                         Reset Timeline
                     </button>
                 </div>
             </div>
 
             <!-- Vertical Timeline Stepper (Compact & Elegant) -->
-            <div class="bg-cockpit-card border border-slate-800 rounded-xl p-3.5 flex flex-col gap-1.5 shrink-0">
-                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 mb-1">Timeline Phases</span>
+            <div class="bg-white border border-sky-100 rounded-xl p-3.5 flex flex-col gap-1.5 shrink-0 card-shadow">
+                <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1">Timeline Phases</span>
                 <div class="flex flex-col gap-1.5" id="timelineList">
                     <!-- Populated via JS -->
                 </div>
             </div>
 
             <!-- Forefront Hero Metrics Card (High-Impact Data) -->
-            <div class="bg-cockpit-card border border-slate-800 rounded-xl p-4 flex-1 flex flex-col justify-between shadow-md min-h-0 overflow-y-auto">
+            <div class="bg-white border border-sky-100 rounded-xl p-4 flex-1 flex flex-col justify-between card-shadow min-h-0 overflow-y-auto">
                 <div>
-                    <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500">Live Grid Outcomes</span>
+                    <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Live Grid Outcomes</span>
                     
                     <!-- Homes Kept Powered (Enormous Highlight) -->
-                    <div class="mt-3 p-3.5 rounded-xl bg-slate-900/90 border border-slate-800/80 transition-all duration-300" id="homesCardWrapper">
-                        <div class="text-[11px] font-mono uppercase font-bold text-slate-400">Homes Kept Powered</div>
-                        <div class="font-mono text-3xl sm:text-4xl font-black text-amber-500 tracking-tight mt-0.5" id="statHomes">
+                    <div class="mt-2.5 p-3.5 rounded-xl bg-slate-50 border border-slate-200 smooth-fade" id="homesCardWrapper">
+                        <div class="text-[11px] font-mono uppercase font-bold text-slate-500">Homes Kept Powered</div>
+                        <div class="font-mono text-3xl sm:text-4xl font-black text-amber-600 tracking-tight mt-0.5" id="statHomes">
                             0
                         </div>
-                        <div class="text-[11px] text-slate-400 mt-1">Fans & water pumps continuous</div>
+                        <div class="text-[11px] text-slate-500 mt-1">Fans & water pumps continuous</div>
                     </div>
 
                     <!-- Hospital Shield & AI Surplus Grid -->
                     <div class="grid grid-cols-2 gap-2.5 mt-2.5">
-                        <div class="p-3 rounded-xl bg-emerald-950/20 border border-emerald-900/40">
-                            <div class="text-[10px] font-mono uppercase font-bold text-emerald-400">Hospital ICU</div>
-                            <div class="font-mono text-2xl font-black text-emerald-400 mt-0.5" id="statHospital">100.0%</div>
-                            <div class="text-[10px] text-emerald-500/80 mt-0.5">Civil, Mayo, PIMS</div>
+                        <div class="p-3 rounded-xl bg-emerald-50 border border-emerald-200">
+                            <div class="text-[10px] font-mono uppercase font-bold text-emerald-800">Hospital ICU</div>
+                            <div class="font-mono text-2xl font-black text-emerald-700 mt-0.5" id="statHospital">100.0%</div>
+                            <div class="text-[10px] text-emerald-600 mt-0.5">Civil, Mayo, PIMS</div>
                         </div>
-                        <div class="p-3 rounded-xl bg-slate-900/90 border border-slate-800" id="surplusWrapper">
-                            <div class="text-[10px] font-mono uppercase font-bold text-slate-400">Karachi Surplus</div>
-                            <div class="font-mono text-2xl font-black text-emerald-400 mt-0.5" id="statSurplus">25.0 MW</div>
-                            <div class="text-[10px] text-slate-500 mt-0.5" id="surplusSub">Nominal balance</div>
+                        <div class="p-3 rounded-xl bg-sky-50 border border-sky-200" id="surplusWrapper">
+                            <div class="text-[10px] font-mono uppercase font-bold text-sky-800">Karachi Surplus</div>
+                            <div class="font-mono text-2xl font-black text-sky-700 mt-0.5" id="statSurplus">25.0 MW</div>
+                            <div class="text-[10px] text-sky-600 mt-0.5" id="surplusSub">Nominal balance</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Simulation Mode Footer -->
-                <div class="pt-3 border-t border-slate-800/80 flex justify-between items-center text-xs font-mono">
-                    <span class="text-slate-500">MODE:</span>
-                    <span class="font-bold text-sky-400" id="statMode">NOMINAL DISPATCH</span>
+                <div class="pt-3 border-t border-slate-100 flex justify-between items-center text-xs font-mono">
+                    <span class="text-slate-400">MODE:</span>
+                    <span class="font-bold text-sky-700" id="statMode">NOMINAL DISPATCH</span>
                 </div>
             </div>
 
@@ -205,46 +207,46 @@
 
 
         <!-- ==================== CENTER STAGE: TOPOLOGY MAP & TELEMETRY (6 Cols) ==================== -->
-        <section class="lg:col-span-6 bg-cockpit-card border border-slate-800 rounded-xl p-4 flex flex-col justify-between shadow-md h-full min-h-0">
+        <section class="lg:col-span-6 bg-white border border-sky-100 rounded-xl p-4 flex flex-col justify-between card-shadow h-full min-h-0">
             
             <!-- Map Header -->
             <div class="flex justify-between items-center mb-2 shrink-0">
                 <div class="flex items-center gap-2">
-                    <span class="h-2.5 w-2.5 rounded-full bg-sky-500"></span>
-                    <h2 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
-                        National 500kV Transmission Topology & Corridors
+                    <span class="h-2.5 w-2.5 rounded-full bg-sky-600"></span>
+                    <h2 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-800">
+                        National 500kV Transmission Topology & Clean Corridors
                     </h2>
                 </div>
-                <span id="mapStatusBadge" class="text-[11px] font-mono px-2.5 py-0.5 rounded-md bg-slate-900 text-sky-400 border border-slate-800">
+                <span id="mapStatusBadge" class="text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200">
                     Status: Nominal Grid
                 </span>
             </div>
 
-            <!-- Plotly Map Container (Flexible, High-Contrast Cockpit Dark Map) -->
-            <div class="flex-1 w-full relative min-h-[340px] rounded-xl overflow-hidden border border-slate-800/80 bg-[#070B13]">
+            <!-- Plotly Map Container (High-Contrast Clean Light Map) -->
+            <div class="flex-1 w-full relative min-h-[340px] rounded-xl overflow-hidden border border-sky-100 bg-[#EBF5FF]">
                 <div id="pakistanMap" class="w-full h-full"></div>
             </div>
 
             <!-- 4 Substation Telemetry Micro-Cards (Compact Bottom Horizontal Strip) -->
-            <div class="grid grid-cols-4 gap-2 mt-3 pt-3 border-t border-slate-800/80 shrink-0">
-                <div id="cardKarachi" class="bg-slate-900/80 border border-slate-800 rounded-lg p-2.5 text-center transition-all duration-300">
-                    <div class="text-[11px] font-mono text-slate-400 font-bold">Karachi (KE)</div>
-                    <div id="mwKarachi" class="font-mono text-base font-extrabold text-white mt-0.5">80 MW</div>
+            <div class="grid grid-cols-4 gap-2 mt-3 pt-3 border-t border-slate-100 shrink-0">
+                <div id="cardKarachi" class="bg-white border border-slate-200 rounded-lg p-2.5 text-center smooth-fade">
+                    <div class="text-[11px] font-mono text-slate-500 font-bold">Karachi (KE)</div>
+                    <div id="mwKarachi" class="font-mono text-base font-extrabold text-slate-900 mt-0.5">80 MW</div>
                     <div id="tempKarachi" class="text-[10px] text-slate-500 font-mono">34°C Thermal</div>
                 </div>
-                <div id="cardLahore" class="bg-slate-900/80 border border-slate-800 rounded-lg p-2.5 text-center transition-all duration-300">
-                    <div class="text-[11px] font-mono text-slate-400 font-bold">Lahore (LESCO)</div>
-                    <div class="font-mono text-base font-extrabold text-slate-200 mt-0.5">70 MW</div>
+                <div id="cardLahore" class="bg-white border border-slate-200 rounded-lg p-2.5 text-center smooth-fade">
+                    <div class="text-[11px] font-mono text-slate-500 font-bold">Lahore (LESCO)</div>
+                    <div class="font-mono text-base font-extrabold text-slate-900 mt-0.5">70 MW</div>
                     <div class="text-[10px] text-slate-500 font-mono">Combined Cycle</div>
                 </div>
-                <div id="cardIslamabad" class="bg-slate-900/80 border border-slate-800 rounded-lg p-2.5 text-center transition-all duration-300">
-                    <div class="text-[11px] font-mono text-slate-400 font-bold">Islamabad (IESCO)</div>
-                    <div class="font-mono text-base font-extrabold text-sky-400 mt-0.5">60 MW</div>
-                    <div class="text-[10px] text-sky-500/80 font-mono">Tarbela Hydro</div>
+                <div id="cardIslamabad" class="bg-white border border-slate-200 rounded-lg p-2.5 text-center smooth-fade">
+                    <div class="text-[11px] font-mono text-slate-500 font-bold">Islamabad (IESCO)</div>
+                    <div class="font-mono text-base font-extrabold text-sky-700 mt-0.5">60 MW</div>
+                    <div class="text-[10px] text-sky-600 font-mono">Tarbela Hydro</div>
                 </div>
-                <div id="cardMultan" class="bg-slate-900/80 border border-slate-800 rounded-lg p-2.5 text-center transition-all duration-300">
-                    <div class="text-[11px] font-mono text-slate-400 font-bold">Multan (MEPCO)</div>
-                    <div class="font-mono text-base font-extrabold text-slate-200 mt-0.5">50 MW</div>
+                <div id="cardMultan" class="bg-white border border-slate-200 rounded-lg p-2.5 text-center smooth-fade">
+                    <div class="text-[11px] font-mono text-slate-500 font-bold">Multan (MEPCO)</div>
+                    <div class="font-mono text-base font-extrabold text-slate-900 mt-0.5">50 MW</div>
                     <div class="text-[10px] text-slate-500 font-mono">Solar Peaker</div>
                 </div>
             </div>
@@ -256,26 +258,26 @@
         <section class="lg:col-span-3 flex flex-col gap-3 h-full min-h-0">
             
             <!-- Phase Story Card -->
-            <div class="bg-cockpit-card border border-slate-800 rounded-xl p-4 flex flex-col gap-2 shadow-md shrink-0 transition-all duration-300" id="narrativeCard">
+            <div class="bg-white border border-sky-100 rounded-xl p-4 flex flex-col gap-2 card-shadow shrink-0 smooth-fade" id="narrativeCard">
                 <div class="flex justify-between items-center">
-                    <span id="narrativeBadge" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded border border-emerald-800 bg-emerald-950 text-emerald-400 uppercase tracking-wide">
+                    <span id="narrativeBadge" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border border-emerald-300 bg-emerald-50 text-emerald-800 uppercase tracking-wide">
                         PHASE 1: NOMINAL
                     </span>
                     <span id="narrativeTime" class="text-xs font-mono font-bold text-slate-400">12:00 PM PKT</span>
                 </div>
-                <h3 id="narrativeTitle" class="text-sm font-extrabold text-white leading-snug">
+                <h3 id="narrativeTitle" class="text-sm font-extrabold text-slate-900 leading-snug">
                     Karachi, Lahore, Islamabad, and Multan in Equilibrium
                 </h3>
-                <p id="narrativeStory" class="text-xs text-slate-300 leading-relaxed max-h-24 overflow-y-auto pr-1">
+                <p id="narrativeStory" class="text-xs text-slate-600 leading-relaxed max-h-24 overflow-y-auto pr-1">
                     It is noon in Pakistan. Temperatures are moderate. K-Electric has 80 MW generation. Civil Hospital (20 MW) and residential baselines are fully met. 25 MW compute surplus is active.
                 </p>
             </div>
 
             <!-- AI Workload Allocation Ledger (Compact & Live) -->
-            <div class="bg-cockpit-card border border-slate-800 rounded-xl p-3.5 flex-1 flex flex-col gap-2 min-h-0 shadow-md">
-                <div class="flex justify-between items-center pb-2 border-b border-slate-800 shrink-0">
-                    <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Active Workload Dispatch</span>
-                    <span id="workloadCount" class="text-[10px] font-mono text-sky-400 font-semibold">120 Jobs Total</span>
+            <div class="bg-white border border-sky-100 rounded-xl p-3.5 flex-1 flex flex-col gap-2 min-h-0 card-shadow">
+                <div class="flex justify-between items-center pb-2 border-b border-slate-100 shrink-0">
+                    <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500">Active Workload Dispatch</span>
+                    <span id="workloadCount" class="text-[10px] font-mono text-sky-700 font-bold">120 Jobs Total</span>
                 </div>
 
                 <div id="workloadList" class="flex-1 overflow-y-auto space-y-2 pr-1 min-h-0">
@@ -283,39 +285,39 @@
                 </div>
 
                 <!-- Quantum Convergence Widget (Phase 4) -->
-                <div id="quantumWidget" class="hidden p-3 bg-purple-950/20 border border-purple-800/60 rounded-lg shrink-0">
-                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-purple-400 mb-1">
+                <div id="quantumWidget" class="hidden p-3 bg-purple-50 border border-purple-200 rounded-lg shrink-0">
+                    <div class="flex justify-between items-center text-[10px] font-mono font-bold text-purple-900 mb-1">
                         <span>QISKIT QAOA CORE (p=2)</span>
-                        <span class="text-purple-300">r = 99.72%</span>
+                        <span class="text-purple-700">r = 99.72%</span>
                     </div>
                     <div id="qaoaMiniPlot" class="w-full h-24"></div>
                 </div>
 
                 <!-- Human Dignity Scorecard (Phase 6) -->
-                <div id="scorecardWidget" class="hidden p-3 bg-emerald-950/25 border border-emerald-800/60 rounded-lg shrink-0 text-xs">
-                    <div class="font-mono font-bold text-emerald-400 text-[11px] mb-1">OUTCOME SCORECARD</div>
-                    <div class="flex justify-between py-0.5 border-b border-emerald-900/40 text-[11px]">
-                        <span class="text-slate-400">Homes Power Cut:</span>
-                        <span class="font-mono text-emerald-400 font-bold">0 (Protected)</span>
+                <div id="scorecardWidget" class="hidden p-3 bg-emerald-50 border border-emerald-200 rounded-lg shrink-0 text-xs">
+                    <div class="font-mono font-bold text-emerald-800 text-[11px] mb-1">OUTCOME SCORECARD</div>
+                    <div class="flex justify-between py-0.5 border-b border-emerald-100 text-[11px]">
+                        <span class="text-slate-600">Homes Power Cut:</span>
+                        <span class="font-mono text-emerald-700 font-bold">0 (Protected)</span>
                     </div>
-                    <div class="flex justify-between py-0.5 border-b border-emerald-900/40 text-[11px]">
-                        <span class="text-slate-400">Hospital ICU Outages:</span>
-                        <span class="font-mono text-emerald-400 font-bold">100% Shielded</span>
+                    <div class="flex justify-between py-0.5 border-b border-emerald-100 text-[11px]">
+                        <span class="text-slate-600">Hospital ICU Outages:</span>
+                        <span class="font-mono text-emerald-700 font-bold">100% Shielded</span>
                     </div>
                     <div class="flex justify-between pt-0.5 text-[11px]">
-                        <span class="text-slate-400">Carbon Saved (Hydro):</span>
-                        <span class="font-mono text-emerald-400 font-bold">-2,880 kg CO₂e</span>
+                        <span class="text-slate-600">Carbon Saved (Hydro):</span>
+                        <span class="font-mono text-emerald-700 font-bold">-2,880 kg CO₂e</span>
                     </div>
                 </div>
             </div>
 
-            <!-- SCADA Telemetry Stream (Compact Docked Console) -->
-            <div class="bg-cockpit-card border border-slate-800 rounded-xl p-3 flex flex-col gap-1.5 h-36 shrink-0 shadow-md">
-                <div class="flex justify-between items-center text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+            <!-- SCADA Telemetry Stream (Clean Light Console) -->
+            <div class="bg-white border border-sky-100 rounded-xl p-3 flex flex-col gap-1.5 h-36 shrink-0 card-shadow">
+                <div class="flex justify-between items-center text-[10px] font-mono text-slate-500 uppercase tracking-wider">
                     <span>Substation SCADA Logs</span>
-                    <span class="text-slate-500">NTDC EMS v4.12</span>
+                    <span class="text-slate-400">NTDC EMS v4.12</span>
                 </div>
-                <div id="scadaLogs" class="scada-stream flex-1 p-2 rounded-lg text-sky-400 overflow-y-auto space-y-0.5 text-[10.5px]">
+                <div id="scadaLogs" class="scada-stream flex-1 p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-700 overflow-y-auto space-y-0.5 text-[10.5px] font-mono">
                     <!-- Populated via JS -->
                 </div>
             </div>
@@ -324,13 +326,13 @@
 
     </main>
 
-    <!-- Cockpit Footer -->
-    <footer class="h-8 bg-[#070A12] border-t border-slate-900 px-6 flex items-center justify-between text-[11px] font-mono text-slate-500 shrink-0">
+    <!-- Clean Executive Footer -->
+    <footer class="h-8 bg-white/90 backdrop-blur-md border-t border-sky-100 px-6 flex items-center justify-between text-[11px] font-mono text-slate-500 shrink-0">
         <span>LIGHTS FIRST — QISKIT HACKATHON 2026 SUBMISSION PACKAGE</span>
         <div class="flex gap-4">
-            <a href="https://github.com/IoRagas/LightsFirst-Qiskit" target="_blank" class="hover:text-slate-300 transition">Repository</a>
-            <a href="https://github.com/IoRagas/LightsFirst-Qiskit/blob/main/GreenGrid_AI_Hackathon_Report.docx" target="_blank" class="hover:text-slate-300 transition">Word Report (.docx)</a>
-            <a href="https://github.com/IoRagas/LightsFirst-Qiskit/blob/main/GreenGrid_Architecture_Diagram.png" target="_blank" class="hover:text-slate-300 transition">Architecture Diagram</a>
+            <a href="https://github.com/IoRagas/LightsFirst-Qiskit" target="_blank" class="hover:text-sky-700 transition font-bold">Repository</a>
+            <a href="https://github.com/IoRagas/LightsFirst-Qiskit/blob/main/GreenGrid_AI_Hackathon_Report.docx" target="_blank" class="hover:text-sky-700 transition">Word Report (.docx)</a>
+            <a href="https://github.com/IoRagas/LightsFirst-Qiskit/blob/main/GreenGrid_Architecture_Diagram.png" target="_blank" class="hover:text-sky-700 transition">Architecture Diagram</a>
         </div>
     </footer>
 
@@ -340,7 +342,7 @@
             {
                 time: "12:00 PM",
                 phaseTitle: "Normal Grid",
-                badgeClass: "bg-emerald-950 text-emerald-400 border-emerald-800",
+                badgeClass: "bg-emerald-50 text-emerald-800 border-emerald-300",
                 badgeText: "PHASE 1: NOMINAL",
                 headline: "Karachi, Lahore, Islamabad, and Multan in Equilibrium",
                 story: "It is noon in Pakistan. Temperatures are moderate. K-Electric has 80 MW of generation supply. Hospital baselines (Civil Hospital, JPMC: 20 MW) and residential baselines (25 MW) are fully met. Karachi has 25 MW surplus capacity, allowing 120 AI workloads to run smoothly across the country.",
@@ -353,10 +355,10 @@
                 homesSaved: 0,
                 mapStatus: "Status: Nominal Grid",
                 workloads: [
-                    { id: "JOB-001", name: "Civil Hospital Radiology AI", mw: "2.0", status: "Running (Local)", badgeClass: "bg-emerald-950/60 text-emerald-400 border-emerald-800" },
-                    { id: "JOB-042", name: "Urdu Foundation LLM Training", mw: "4.2", status: "Running (Local)", badgeClass: "bg-slate-900 text-slate-300 border-slate-800" },
-                    { id: "JOB-088", name: "Video Diffusion Latent Crawl", mw: "3.5", status: "Running (Local)", badgeClass: "bg-slate-900 text-slate-300 border-slate-800" },
-                    { id: "JOB-103", name: "Hyperparameter Grid Search", mw: "2.8", status: "Running (Local)", badgeClass: "bg-slate-900 text-slate-300 border-slate-800" }
+                    { id: "JOB-001", name: "Civil Hospital Radiology AI", mw: "2.0", status: "Running (Local)", badgeClass: "bg-emerald-50 text-emerald-800 border-emerald-300 font-semibold" },
+                    { id: "JOB-042", name: "Urdu Foundation LLM Training", mw: "4.2", status: "Running (Local)", badgeClass: "bg-slate-50 text-slate-800 border-slate-200" },
+                    { id: "JOB-088", name: "Video Diffusion Latent Crawl", mw: "3.5", status: "Running (Local)", badgeClass: "bg-slate-50 text-slate-800 border-slate-200" },
+                    { id: "JOB-103", name: "Hyperparameter Grid Search", mw: "2.8", status: "Running (Local)", badgeClass: "bg-slate-50 text-slate-800 border-slate-200" }
                 ],
                 logs: [
                     "[12:00:00] SCADA: National grid frequency synchronized at 50.00 Hz.",
@@ -367,7 +369,7 @@
             {
                 time: "02:00 PM",
                 phaseTitle: "Heatwave Peak",
-                badgeClass: "bg-red-950 text-red-400 border-red-800",
+                badgeClass: "bg-rose-50 text-rose-800 border-rose-300",
                 badgeText: "PHASE 2: HEATWAVE PEAK",
                 headline: "CRITICAL: Residential Cooling Surges +15 MW",
                 story: "At 2:00 PM, temperatures cross 48°C in Karachi. Millions of citizens switch on fans, water pumps, and air conditioners. Residential demand surges from 25 MW to 40 MW (+60% surge). K-Electric generation is maxed at 80 MW. Available power for AI computing crashes to ZERO! 16,000 homes will be cut into darkness unless compute yields immediately.",
@@ -380,10 +382,10 @@
                 homesSaved: 0,
                 mapStatus: "ALERT: 15 MW Deficit in Karachi Corridor",
                 workloads: [
-                    { id: "JOB-001", name: "Civil Hospital Radiology AI", mw: "2.0", status: "High Priority (Keep Local)", badgeClass: "bg-emerald-950/60 text-emerald-400 border-emerald-800 font-bold" },
-                    { id: "JOB-042", name: "Urdu Foundation LLM Training", mw: "4.2", status: "Flagged to Step Aside", badgeClass: "bg-red-950/60 text-red-400 border-red-800 font-bold" },
-                    { id: "JOB-088", name: "Video Diffusion Latent Crawl", mw: "3.5", status: "Flagged to Step Aside", badgeClass: "bg-red-950/60 text-red-400 border-red-800 font-bold" },
-                    { id: "JOB-103", name: "Hyperparameter Grid Search", mw: "2.8", status: "Flagged to Step Aside", badgeClass: "bg-red-950/60 text-red-400 border-red-800 font-bold" }
+                    { id: "JOB-001", name: "Civil Hospital Radiology AI", mw: "2.0", status: "High Priority (Keep Local)", badgeClass: "bg-emerald-50 text-emerald-800 border-emerald-300 font-bold" },
+                    { id: "JOB-042", name: "Urdu Foundation LLM Training", mw: "4.2", status: "Flagged to Step Aside", badgeClass: "bg-rose-50 text-rose-800 border-rose-300 font-bold" },
+                    { id: "JOB-088", name: "Video Diffusion Latent Crawl", mw: "3.5", status: "Flagged to Step Aside", badgeClass: "bg-rose-50 text-rose-800 border-rose-300 font-bold" },
+                    { id: "JOB-103", name: "Hyperparameter Grid Search", mw: "2.8", status: "Flagged to Step Aside", badgeClass: "bg-rose-50 text-rose-800 border-rose-300 font-bold" }
                 ],
                 logs: [
                     "[14:00:01] SENSOR: Karachi ambient temperature rises to 48.2°C.",
@@ -395,7 +397,7 @@
             {
                 time: "02:05 PM",
                 phaseTitle: "Shield Hospitals",
-                badgeClass: "bg-red-950 text-red-400 border-red-800",
+                badgeClass: "bg-rose-50 text-rose-800 border-rose-300",
                 badgeText: "PHASE 3: LIFE-SUPPORT LOCK",
                 headline: "Inviolable Life-Support Lock: Hospitals Shielded",
                 story: "The Lights First controller automatically engages! Hospital intensive care units at Civil Hospital and JPMC (20.0 MW) are mathematically locked as an INVIOLABLE hard constraint. They can never be shed. Simultaneously, the controller intercepts 5 AI workloads in Karachi. It recognizes that emergency radiology AI must stay local, while large generative training can step aside.",
@@ -408,10 +410,10 @@
                 homesSaved: 0,
                 mapStatus: "Life-Support Lock Active | Dispatching Quantum Core",
                 workloads: [
-                    { id: "JOB-001", name: "Civil Hospital Radiology AI", mw: "2.0", status: "LOCKED TO LOCAL MICROGRID", badgeClass: "bg-emerald-950 text-emerald-300 border-emerald-700 font-bold" },
-                    { id: "JOB-042", name: "Urdu Foundation LLM Training", mw: "4.2", status: "Preemption Queue (Yielding)", badgeClass: "bg-amber-950/60 text-amber-400 border-amber-800 font-medium" },
-                    { id: "JOB-088", name: "Video Diffusion Latent Crawl", mw: "3.5", status: "Preemption Queue (Yielding)", badgeClass: "bg-amber-950/60 text-amber-400 border-amber-800 font-medium" },
-                    { id: "JOB-103", name: "Hyperparameter Grid Search", mw: "2.8", status: "Preemption Queue (Yielding)", badgeClass: "bg-amber-950/60 text-amber-400 border-amber-800 font-medium" }
+                    { id: "JOB-001", name: "Civil Hospital Radiology AI", mw: "2.0", status: "LOCKED TO LOCAL MICROGRID", badgeClass: "bg-emerald-100 text-emerald-900 border-emerald-400 font-bold shadow-sm" },
+                    { id: "JOB-042", name: "Urdu Foundation LLM Training", mw: "4.2", status: "Preemption Queue (Yielding)", badgeClass: "bg-amber-50 text-amber-900 border-amber-300 font-medium" },
+                    { id: "JOB-088", name: "Video Diffusion Latent Crawl", mw: "3.5", status: "Preemption Queue (Yielding)", badgeClass: "bg-amber-50 text-amber-900 border-amber-300 font-medium" },
+                    { id: "JOB-103", name: "Hyperparameter Grid Search", mw: "2.8", status: "Preemption Queue (Yielding)", badgeClass: "bg-amber-50 text-amber-900 border-amber-300 font-medium" }
                 ],
                 logs: [
                     "[14:05:01] CONTROLLER: Inviolable life-support shield activated for Civil Hospital (20.0 MW).",
@@ -423,7 +425,7 @@
             {
                 time: "02:10 PM",
                 phaseTitle: "Quantum QAOA",
-                badgeClass: "bg-purple-950 text-purple-400 border-purple-800",
+                badgeClass: "bg-purple-50 text-purple-800 border-purple-300",
                 badgeText: "PHASE 4: QUANTUM OPTIMIZATION",
                 headline: "Qiskit QAOA Core Resolves Multi-Choice Knapsack (r = 99.7%)",
                 story: "When multiple critical jobs compete for tight clean power corridors, classical greedy dispatch trips lines by sorting myopically. Lights First compiles the decision into an 8-qubit constrained deficit QUBO with binary slack variables. Qiskit QAOA (p=2 layers, COBYLA) explores the 256 state space in superposition, finding the optimal trade-off with a 99.7% approximation ratio: exact bitstring [1, 1, 0, 0].",
@@ -436,10 +438,10 @@
                 homesSaved: 8500,
                 mapStatus: "QAOA Optimal State [1, 1, 0, 0] Resolved in 180ms",
                 workloads: [
-                    { id: "JOB-001", name: "Civil Hospital Radiology AI", mw: "2.0", status: "PRESERVED LOCAL (Ground Truth)", badgeClass: "bg-emerald-950 text-emerald-300 border-emerald-700 font-bold" },
-                    { id: "JOB-042", name: "Urdu Foundation LLM Training", mw: "4.2", status: "QAOA: Route to Tarbela Hydro", badgeClass: "bg-purple-950 text-purple-300 border-purple-700 font-bold" },
-                    { id: "JOB-088", name: "Video Diffusion Latent Crawl", mw: "3.5", status: "QAOA: Route to Lahore LESCO", badgeClass: "bg-purple-950 text-purple-300 border-purple-700 font-bold" },
-                    { id: "JOB-103", name: "Hyperparameter Grid Search", mw: "2.8", status: "QAOA: Defer to 23:00 Off-Peak", badgeClass: "bg-purple-950 text-purple-300 border-purple-700 font-bold" }
+                    { id: "JOB-001", name: "Civil Hospital Radiology AI", mw: "2.0", status: "PRESERVED LOCAL (Ground Truth)", badgeClass: "bg-emerald-100 text-emerald-900 border-emerald-400 font-bold" },
+                    { id: "JOB-042", name: "Urdu Foundation LLM Training", mw: "4.2", status: "QAOA: Route to Tarbela Hydro", badgeClass: "bg-purple-100 text-purple-900 border-purple-400 font-bold" },
+                    { id: "JOB-088", name: "Video Diffusion Latent Crawl", mw: "3.5", status: "QAOA: Route to Lahore LESCO", badgeClass: "bg-purple-100 text-purple-900 border-purple-400 font-bold" },
+                    { id: "JOB-103", name: "Hyperparameter Grid Search", mw: "2.8", status: "QAOA: Defer to 23:00 Off-Peak", badgeClass: "bg-purple-100 text-purple-900 border-purple-400 font-bold" }
                 ],
                 logs: [
                     "[14:10:00] QISKIT QAOA: Mapped 8-qubit Ising Hamiltonian (36 Pauli-Z couplings).",
@@ -451,7 +453,7 @@
             {
                 time: "02:15 PM",
                 phaseTitle: "Compute Migrates",
-                badgeClass: "bg-indigo-950 text-indigo-400 border-indigo-800",
+                badgeClass: "bg-indigo-50 text-indigo-800 border-indigo-300",
                 badgeText: "PHASE 5: FLIGHT MIGRATION",
                 headline: "Flexible Compute Lifts Off to Northern Hydro in Islamabad",
                 story: "Watch the map! Non-urgent AI workloads gracefully lift off from Karachi. The 4.2 MW Urdu LLM training job migrates along the 500kV corridor to Islamabad, where clean Tarbela Hydro generates power at just 85 g CO₂/kWh (an 80% emissions reduction). Video diffusion moves to Lahore. Hyperparameter search pauses until 11:00 PM. Karachi data center draw drops by 15 MW!",
@@ -464,10 +466,10 @@
                 homesSaved: 14000,
                 mapStatus: "Workloads Migrating across 500kV Corridors",
                 workloads: [
-                    { id: "JOB-042", name: "Urdu LLM 4.2 MW", mw: "4.2", status: "IN TRANSIT -> Islamabad Hydro", badgeClass: "bg-indigo-950 text-indigo-300 border-indigo-700 font-bold" },
-                    { id: "JOB-088", name: "Video Diffusion 3.5 MW", mw: "3.5", status: "IN TRANSIT -> Lahore LESCO", badgeClass: "bg-amber-950 text-amber-300 border-amber-700 font-bold" },
-                    { id: "JOB-103", name: "Hyperparameter 2.8 MW", mw: "2.8", status: "DEFERRED TO 23:00 OFF-PEAK", badgeClass: "bg-slate-900 text-slate-400 border-slate-800" },
-                    { id: "JOB-001", name: "Emergency Radiology AI", mw: "2.0", status: "100% ACTIVE (Hospital Microgrid)", badgeClass: "bg-emerald-950 text-emerald-300 border-emerald-700 font-bold" }
+                    { id: "JOB-042", name: "Urdu LLM 4.2 MW", mw: "4.2", status: "IN TRANSIT -> Islamabad Hydro", badgeClass: "bg-indigo-100 text-indigo-900 border-indigo-400 font-bold shadow-sm" },
+                    { id: "JOB-088", name: "Video Diffusion 3.5 MW", mw: "3.5", status: "IN TRANSIT -> Lahore LESCO", badgeClass: "bg-amber-100 text-amber-900 border-amber-400 font-bold shadow-sm" },
+                    { id: "JOB-103", name: "Hyperparameter 2.8 MW", mw: "2.8", status: "DEFERRED TO 23:00 OFF-PEAK", badgeClass: "bg-slate-100 text-slate-700 border-slate-300 font-medium" },
+                    { id: "JOB-001", name: "Emergency Radiology AI", mw: "2.0", status: "100% ACTIVE (Hospital Microgrid)", badgeClass: "bg-emerald-100 text-emerald-900 border-emerald-400 font-bold shadow-sm" }
                 ],
                 logs: [
                     "[14:15:02] MIGRATION: JOB-042 (Urdu LLM 4.2 MW) state transferred to Islamabad DC (Tarbela Hydro).",
@@ -479,7 +481,7 @@
             {
                 time: "02:30 PM",
                 phaseTitle: "Grid Restored",
-                badgeClass: "bg-emerald-950 text-emerald-400 border-emerald-800",
+                badgeClass: "bg-emerald-50 text-emerald-800 border-emerald-300",
                 badgeText: "PHASE 6: RESTORED",
                 headline: "SUCCESS: 16,000 Homes Kept Powered in 48°C Heat",
                 story: "The Karachi power grid returns to safe equilibrium! K-Electric frequency stabilizes at 50.00 Hz. Because flexible AI stepped aside, over 16,000 families in Karachi kept their ceiling fans spinning and water pumps running through the peak of the 48°C heatwave. Civil Hospital and JPMC experienced ZERO power flickers. AI jobs complete safely on clean northern hydro, cutting total emissions by 2,880 kg CO₂e.",
@@ -492,10 +494,10 @@
                 homesSaved: 16000,
                 mapStatus: "Equilibrium Restored: 16,000 Homes Kept Powered",
                 workloads: [
-                    { id: "JOB-001", name: "Civil Hospital Radiology AI", mw: "2.0", status: "COMPLETED LOCAL (0 Flickers)", badgeClass: "bg-emerald-950 text-emerald-300 border-emerald-700 font-bold" },
-                    { id: "JOB-042", name: "Urdu Foundation LLM Training", mw: "4.2", status: "RUNNING ON TARBELA HYDRO", badgeClass: "bg-sky-950 text-sky-300 border-sky-700 font-bold" },
-                    { id: "JOB-088", name: "Video Diffusion Latent Crawl", mw: "3.5", status: "RUNNING ON LAHORE LESCO", badgeClass: "bg-emerald-950/60 text-emerald-400 border-emerald-800 font-semibold" },
-                    { id: "JOB-103", name: "Hyperparameter Grid Search", mw: "2.8", status: "QUEUED FOR 23:00 OFF-PEAK", badgeClass: "bg-slate-900 text-slate-400 border-slate-800" }
+                    { id: "JOB-001", name: "Civil Hospital Radiology AI", mw: "2.0", status: "COMPLETED LOCAL (0 Flickers)", badgeClass: "bg-emerald-100 text-emerald-900 border-emerald-400 font-bold shadow-sm" },
+                    { id: "JOB-042", name: "Urdu Foundation LLM Training", mw: "4.2", status: "RUNNING ON TARBELA HYDRO", badgeClass: "bg-sky-100 text-sky-900 border-sky-400 font-bold shadow-sm" },
+                    { id: "JOB-088", name: "Video Diffusion Latent Crawl", mw: "3.5", status: "RUNNING ON LAHORE LESCO", badgeClass: "bg-emerald-50 text-emerald-800 border-emerald-300 font-semibold" },
+                    { id: "JOB-103", name: "Hyperparameter Grid Search", mw: "2.8", status: "QUEUED FOR 23:00 OFF-PEAK", badgeClass: "bg-slate-100 text-slate-600 border-slate-300" }
                 ],
                 logs: [
                     "[14:30:00] SCADA: Karachi grid frequency locked at 50.00 Hz. Line loading normalized to 72%.",
@@ -518,7 +520,6 @@
             function step(currentTime) {
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
-                // easeOutQuad
                 const current = Math.floor(start + range * (progress * (2 - progress)));
                 document.getElementById("statHomes").innerText = (current > 0 ? "+" : "") + current.toLocaleString();
                 if (progress < 1) {
@@ -539,13 +540,13 @@
             timelineContainer.innerHTML = simulationSteps.map((s, idx) => {
                 const isActive = (idx === currentStepIndex);
                 const isDone = (idx < currentStepIndex);
-                const cls = isActive ? "bg-sky-600/30 text-sky-300 font-extrabold border-sky-500/80 shadow-sm" : 
-                            (isDone ? "bg-slate-900/80 text-slate-300 font-medium border-slate-800" : "bg-slate-950 text-slate-600 border-slate-900");
-                const dot = isActive ? "<span class='inline-block w-1.5 h-1.5 rounded-full bg-sky-400 mr-2 pulse-subtle'></span>" : 
-                            (isDone ? "<span class='font-mono text-emerald-400 text-xs mr-2 font-bold'>✓</span>" : `<span class='font-mono text-slate-600 text-xs mr-2'>${idx+1}</span>`);
+                const cls = isActive ? "bg-sky-50 text-sky-900 font-extrabold border-sky-400 shadow-sm ring-1 ring-sky-300" : 
+                            (isDone ? "bg-white text-slate-700 font-medium border-slate-200 hover:bg-slate-50" : "bg-slate-50/70 text-slate-400 border-slate-200/60");
+                const dot = isActive ? "<span class='inline-block w-2 h-2 rounded-full bg-sky-600 mr-2 pulse-subtle'></span>" : 
+                            (isDone ? "<span class='font-mono text-emerald-600 text-xs mr-2 font-bold'>✓</span>" : `<span class='font-mono text-slate-400 text-xs mr-2'>${idx+1}</span>`);
                 return `<button onclick="jumpToStep(${idx})" class="w-full text-left text-[11px] py-1.5 px-2.5 rounded-lg border transition flex items-center justify-between ${cls}">
                             <div class="flex items-center">${dot}<span class="truncate">${s.phaseTitle}</span></div>
-                            <span class="font-mono text-[10px] text-slate-500">${s.time}</span>
+                            <span class="font-mono text-[10px] text-slate-400">${s.time}</span>
                         </button>`;
             }).join("");
 
@@ -557,7 +558,7 @@
 
             const surplusEl = document.getElementById("statSurplus");
             surplusEl.innerText = step.karachiSurplus.toFixed(1) + " MW";
-            surplusEl.className = "font-mono text-2xl font-black mt-0.5 " + (step.karachiSurplus > 5 ? "text-emerald-400" : (step.karachiSurplus === 0 ? "text-red-400" : "text-amber-400"));
+            surplusEl.className = "font-mono text-2xl font-black mt-0.5 " + (step.karachiSurplus > 5 ? "text-sky-700" : (step.karachiSurplus === 0 ? "text-rose-600" : "text-amber-600"));
 
             document.getElementById("surplusSub").innerText = (step.karachiSurplus === 0 ? "Surplus depleted" : "Nominal balance");
             document.getElementById("statMode").innerText = step.modeName;
@@ -565,9 +566,9 @@
             // Highlight Cards on Crisis
             const homesCard = document.getElementById("homesCardWrapper");
             if (step.homesSaved > 0) {
-                homesCard.className = "mt-3 p-3.5 rounded-xl bg-amber-950/20 border border-amber-900/60 glow-emerald transition-all duration-300";
+                homesCard.className = "mt-2.5 p-3.5 rounded-xl bg-gradient-to-br from-amber-50 to-orange-50/60 border border-amber-300 shadow-sm smooth-fade";
             } else {
-                homesCard.className = "mt-3 p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 transition-all duration-300";
+                homesCard.className = "mt-2.5 p-3.5 rounded-xl bg-slate-50 border border-slate-200 smooth-fade";
             }
 
             // Narrative Update with Subtle Animation
@@ -577,7 +578,7 @@
             nCard.classList.add("anim-slide-up");
 
             const nBadge = document.getElementById("narrativeBadge");
-            nBadge.className = "text-[10px] font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wide " + step.badgeClass;
+            nBadge.className = "text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border uppercase tracking-wide " + step.badgeClass;
             nBadge.innerText = step.badgeText;
             document.getElementById("narrativeTime").innerText = step.time + " PKT";
             document.getElementById("narrativeTitle").innerText = step.headline;
@@ -589,11 +590,11 @@
             wlContainer.innerHTML = step.workloads.map(w => `
                 <div class="border rounded-lg p-2.5 flex justify-between items-center transition-all ${w.badgeClass}">
                     <div class="flex items-center gap-2 truncate">
-                        <span class="font-mono font-bold text-xs text-slate-300">${w.id}</span>
-                        <span class="text-xs truncate">${w.name}</span>
+                        <span class="font-mono font-bold text-xs text-slate-700">${w.id}</span>
+                        <span class="text-xs truncate text-slate-800">${w.name}</span>
                         <span class="font-mono text-slate-500 text-[10.5px]">(${w.mw} MW)</span>
                     </div>
-                    <span class="font-mono font-bold text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-black/40 border border-current shrink-0 ml-2">${w.status}</span>
+                    <span class="font-mono font-bold text-[10px] uppercase tracking-wider px-2 py-0.5 rounded bg-white/80 border border-current shrink-0 ml-2 shadow-xs">${w.status}</span>
                 </div>
             `).join("");
 
@@ -624,11 +625,11 @@
                 const nextStepData = simulationSteps[currentStepIndex + 1];
                 nextBtnText.innerText = `NEXT: ${nextStepData.phaseTitle.toUpperCase()} (${nextStepData.time})`;
                 nextBtn.disabled = false;
-                nextBtn.className = "w-full py-3 px-4 bg-sky-600 hover:bg-sky-500 active:scale-[0.98] text-white font-extrabold text-sm rounded-xl shadow-lg shadow-sky-950/60 transition flex items-center justify-between";
+                nextBtn.className = "w-full py-3 px-4 bg-sky-600 hover:bg-sky-700 active:scale-[0.98] text-white font-extrabold text-sm rounded-xl shadow-md shadow-sky-200 transition-all duration-200 flex items-center justify-between";
             } else {
                 nextBtnText.innerText = "SIMULATION COMPLETE";
                 nextBtn.disabled = true;
-                nextBtn.className = "w-full py-3 px-4 bg-slate-800 text-slate-500 font-extrabold text-sm rounded-xl transition flex items-center justify-between cursor-not-allowed";
+                nextBtn.className = "w-full py-3 px-4 bg-slate-200 text-slate-400 font-extrabold text-sm rounded-xl transition flex items-center justify-between cursor-not-allowed";
             }
 
             // Substation card highlighting
@@ -638,14 +639,14 @@
             mwKE.innerText = step.karachiSupply + " MW";
             tempKE.innerText = step.karachiTemp;
             if (currentStepIndex === 1 || currentStepIndex === 2) {
-                cardKE.className = "bg-red-950/40 border-2 border-red-600 rounded-lg p-2.5 text-center glow-red transition-all duration-300";
-                mwKE.className = "font-mono text-base font-extrabold text-red-400 mt-0.5";
+                cardKE.className = "bg-rose-50 border-2 border-rose-500 rounded-lg p-2.5 text-center glow-red smooth-fade";
+                mwKE.className = "font-mono text-base font-extrabold text-rose-700 mt-0.5";
             } else if (currentStepIndex >= 4) {
-                cardKE.className = "bg-emerald-950/40 border-2 border-emerald-600 rounded-lg p-2.5 text-center glow-emerald transition-all duration-300";
-                mwKE.className = "font-mono text-base font-extrabold text-emerald-400 mt-0.5";
+                cardKE.className = "bg-emerald-50 border-2 border-emerald-500 rounded-lg p-2.5 text-center glow-emerald smooth-fade";
+                mwKE.className = "font-mono text-base font-extrabold text-emerald-700 mt-0.5";
             } else {
-                cardKE.className = "bg-slate-900/80 border border-slate-800 rounded-lg p-2.5 text-center transition-all duration-300";
-                mwKE.className = "font-mono text-base font-extrabold text-white mt-0.5";
+                cardKE.className = "bg-white border border-slate-200 rounded-lg p-2.5 text-center smooth-fade";
+                mwKE.className = "font-mono text-base font-extrabold text-slate-900 mt-0.5";
             }
 
             // Update SCADA logs
@@ -655,11 +656,11 @@
             }
             const logsContainer = document.getElementById("scadaLogs");
             logsContainer.innerHTML = allLogs.slice(-7).map(l => {
-                let colorClass = "text-sky-300";
-                if (l.includes("ALERT") || l.includes("CRITICAL") || l.includes("DEFICIT")) colorClass = "text-red-400 font-bold";
-                else if (l.includes("WARNING") || l.includes("PREEMPTION") || l.includes("SURGE")) colorClass = "text-amber-300";
-                else if (l.includes("QISKIT") || l.includes("QAOA") || l.includes("BENCHMARK")) colorClass = "text-purple-300 font-bold";
-                else if (l.includes("RESOLVED") || l.includes("HUMAN IMPACT") || l.includes("SUSTAINABILITY")) colorClass = "text-emerald-300 font-bold";
+                let colorClass = "text-sky-800";
+                if (l.includes("ALERT") || l.includes("CRITICAL") || l.includes("DEFICIT")) colorClass = "text-rose-600 font-bold";
+                else if (l.includes("WARNING") || l.includes("PREEMPTION") || l.includes("SURGE")) colorClass = "text-amber-700 font-semibold";
+                else if (l.includes("QISKIT") || l.includes("QAOA") || l.includes("BENCHMARK")) colorClass = "text-purple-700 font-bold";
+                else if (l.includes("RESOLVED") || l.includes("HUMAN IMPACT") || l.includes("SUSTAINABILITY")) colorClass = "text-emerald-700 font-bold";
                 return `<div class="${colorClass}">${l}</div>`;
             }).join("");
             logsContainer.scrollTop = logsContainer.scrollHeight;
@@ -669,10 +670,10 @@
 
         function renderMap() {
             const cities = {
-                'Karachi': { lat: 24.8607, lon: 67.0011, name: 'Karachi (KE)', color: (currentStepIndex === 1 || currentStepIndex === 2) ? '#EF4444' : (currentStepIndex >= 5 ? '#10B981' : '#0284C7'), size: 22 },
-                'Multan': { lat: 30.1575, lon: 71.5249, name: 'Multan (MEPCO)', color: '#10B981', size: 15 },
-                'Lahore': { lat: 31.5204, lon: 74.3587, name: 'Lahore (LESCO)', color: (currentStepIndex >= 4) ? '#A855F7' : '#10B981', size: 17 },
-                'Islamabad': { lat: 33.6844, lon: 73.0479, name: 'Islamabad (IESCO)', color: (currentStepIndex >= 4) ? '#38BDF8' : '#10B981', size: 17 }
+                'Karachi': { lat: 24.8607, lon: 67.0011, name: 'Karachi (KE)', color: (currentStepIndex === 1 || currentStepIndex === 2) ? '#EF4444' : (currentStepIndex >= 5 ? '#059669' : '#0284C7'), size: 20 },
+                'Multan': { lat: 30.1575, lon: 71.5249, name: 'Multan (MEPCO)', color: '#059669', size: 15 },
+                'Lahore': { lat: 31.5204, lon: 74.3587, name: 'Lahore (LESCO)', color: (currentStepIndex >= 4) ? '#9333EA' : '#059669', size: 16 },
+                'Islamabad': { lat: 33.6844, lon: 73.0479, name: 'Islamabad (IESCO)', color: (currentStepIndex >= 4) ? '#0284C7' : '#059669', size: 17 }
             };
 
             const data = [];
@@ -681,7 +682,7 @@
             const corridors = [['Karachi', 'Multan'], ['Multan', 'Lahore'], ['Lahore', 'Islamabad']];
             corridors.forEach(([c1, c2]) => {
                 const isKarachiCorridor = (c1 === 'Karachi' || c2 === 'Karachi');
-                const lineColor = (currentStepIndex === 1 && isKarachiCorridor) ? '#EF4444' : '#0369A1';
+                const lineColor = (currentStepIndex === 1 && isKarachiCorridor) ? '#EF4444' : '#0284C7';
                 const lineWidth = (currentStepIndex === 1 && isKarachiCorridor) ? 4.5 : 2.5;
 
                 data.push({
@@ -702,8 +703,8 @@
                     lat: [24.8607, 29.2, 33.6844],
                     lon: [67.0011, 70.1, 73.0479],
                     mode: 'lines+markers',
-                    line: { width: 3.5, color: '#A855F7', dash: 'dash' },
-                    marker: { size: [0, 8, 12], symbol: 'triangle-up', color: '#C084FC' },
+                    line: { width: 3.5, color: '#9333EA', dash: 'dash' },
+                    marker: { size: [0, 8, 12], symbol: 'triangle-up', color: '#A855F7' },
                     text: ['', 'JOB-042 (Urdu LLM 4.2 MW) -> Tarbela Hydro', 'Islamabad Hydro DC'],
                     hoverinfo: 'text',
                     showlegend: false
@@ -713,8 +714,8 @@
                     lat: [24.8607, 28.0, 31.5204],
                     lon: [67.0011, 71.0, 74.3587],
                     mode: 'lines+markers',
-                    line: { width: 3, color: '#F59E0B', dash: 'dot' },
-                    marker: { size: [0, 7, 10], symbol: 'triangle-up', color: '#FBBF24' },
+                    line: { width: 3, color: '#D97706', dash: 'dot' },
+                    marker: { size: [0, 7, 10], symbol: 'triangle-up', color: '#F59E0B' },
                     text: ['', 'JOB-088 (Diffusion 3.5 MW) -> Lahore', 'Lahore LESCO DC'],
                     hoverinfo: 'text',
                     showlegend: false
@@ -731,11 +732,11 @@
                     mode: 'markers+text',
                     text: [`<b>${c}</b>`],
                     textposition: 'top center',
-                    textfont: { family: 'JetBrains Mono', size: 11, color: '#F8FAFC' },
+                    textfont: { family: 'Inter, sans-serif', size: 11, color: '#0F172A' },
                     marker: {
                         size: city.size,
                         color: city.color,
-                        line: { width: 2, color: '#0F172A' }
+                        line: { width: 2.5, color: '#FFFFFF' }
                     },
                     hoverinfo: 'text',
                     hovertext: `<b>${city.name}</b>`,
@@ -750,11 +751,11 @@
                     lataxis: { range: [23.5, 36.5] },
                     lonaxis: { range: [66.0, 76.5] },
                     showcountries: true,
-                    countrycolor: '#1E293B',
+                    countrycolor: '#CBD5E1',
                     showland: true,
-                    landcolor: '#0A0F1D',
+                    landcolor: '#FFFFFF',
                     showocean: true,
-                    oceancolor: '#060913',
+                    oceancolor: '#E0F2FE',
                     resolution: 50
                 },
                 margin: { l: 0, r: 0, t: 0, b: 0 },
@@ -771,16 +772,16 @@
                 x: [1, 2, 3, 4, 5, 6, 7],
                 y: hist,
                 mode: 'lines+markers',
-                line: { color: '#C084FC', width: 2.5 },
-                marker: { size: 5, color: '#A855F7' },
+                line: { color: '#7C3AED', width: 2.5 },
+                marker: { size: 5, color: '#6D28D9' },
                 name: 'QAOA Energy'
             }];
             const layout = {
-                margin: { l: 25, r: 10, t: 5, b: 20 },
+                margin: { l: 28, r: 10, t: 5, b: 22 },
                 paper_bgcolor: 'transparent',
                 plot_bgcolor: 'transparent',
-                xaxis: { title: 'Iterations', tickfont: { size: 8, color: '#94A3B8' }, titlefont: { size: 8, color: '#94A3B8' } },
-                yaxis: { title: 'Energy', tickfont: { size: 8, color: '#94A3B8' }, titlefont: { size: 8, color: '#94A3B8' } },
+                xaxis: { title: 'Iterations', tickfont: { size: 8, color: '#64748B' }, titlefont: { size: 8, color: '#64748B' }, gridcolor: '#E2E8F0' },
+                yaxis: { title: 'Energy', tickfont: { size: 8, color: '#64748B' }, titlefont: { size: 8, color: '#64748B' }, gridcolor: '#E2E8F0' },
                 shapes: [{
                     type: 'line',
                     x0: 1, x1: 7,
@@ -822,10 +823,10 @@
                 clearInterval(autoPlayTimer);
                 autoPlayTimer = null;
                 btn.innerText = "Auto-Advance";
-                btn.className = "text-[11px] font-mono font-bold bg-slate-900 hover:bg-slate-800 text-sky-400 border border-slate-700 px-2.5 py-1 rounded transition";
+                btn.className = "text-[11px] font-mono font-bold bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 px-2.5 py-1 rounded-md transition";
             } else {
                 btn.innerText = "Pause";
-                btn.className = "text-[11px] font-mono font-bold bg-amber-600 hover:bg-amber-500 text-white border border-amber-500 px-2.5 py-1 rounded transition";
+                btn.className = "text-[11px] font-mono font-bold bg-amber-500 hover:bg-amber-600 text-white border border-amber-600 px-2.5 py-1 rounded-md transition shadow-xs";
                 autoPlayTimer = setInterval(() => {
                     if (currentStepIndex < simulationSteps.length - 1) {
                         nextStep();
@@ -833,9 +834,9 @@
                         clearInterval(autoPlayTimer);
                         autoPlayTimer = null;
                         btn.innerText = "Auto-Advance";
-                        btn.className = "text-[11px] font-mono font-bold bg-slate-900 hover:bg-slate-800 text-sky-400 border border-slate-700 px-2.5 py-1 rounded transition";
+                        btn.className = "text-[11px] font-mono font-bold bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 px-2.5 py-1 rounded-md transition";
                     }
-                }, 2200);
+                }, 2400);
             }
         }
 

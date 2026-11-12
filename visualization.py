@@ -99,16 +99,16 @@ def generate_architecture_diagram(filename: str = "GreenGrid_Architecture_Diagra
 
     # Sub-box 3B: Quantum Micro Core
     subbox3b = patches.FancyBboxPatch((52, 37), 41, 19, boxstyle="round,pad=0.8",
-                                      facecolor="#ffffff", edgecolor="#8e44ad", linewidth=1.2)
+                                      facecolor="#ffffff", edgecolor="#0284c7", linewidth=1.2)
     ax.add_patch(subbox3b)
     ax.text(72.5, 53, "Tier 2: Qiskit 2.x QAOA Quantum Core (Deficit QUBO)", 
-            ha='center', va='center', fontsize=9.5, fontweight='bold', color="#8e44ad")
+            ha='center', va='center', fontsize=9.5, fontweight='bold', color="#0369a1")
     sub3b_text = [
         "• High-Stakes Deficit Allocation: Multi-Choice Knapsack",
         "• Mapping to 8-Qubit Ising Hamiltonian H = sum h_i Z_i + sum J_ij Z_i Z_j",
-        "• QAOA Parameterized Circuit: U(γ, β) with Sampler/Statevector",
-        "• COBYLA Classical Hybrid Feedback Loop (p=1 layers)",
-        "• Approximation Ratio: r = 0.907+ vs Exact Eigensolver Ground Truth"
+        "• QAOA Parameterized Circuit: U(γ, β) with Statevector/Sampler",
+        "• COBYLA Classical Hybrid Feedback Loop (p=2 layers)",
+        "• Approximation Ratio: r = 99.72% vs Exact Eigensolver Ground Truth"
     ]
     for idx, t in enumerate(sub3b_text):
         ax.text(53.5, 49.5 - idx * 2.8, t, fontsize=8.2, color="#2c3e50")

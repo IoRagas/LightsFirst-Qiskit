@@ -86,8 +86,8 @@ Our 8-qubit deficit QUBO model was evaluated against an **Exact Classical Brute-
 ### 1. Installation
 Clone the repository and install dependencies:
 ```bash
-git clone https://github.com/<your-username>/GreenGrid-AI.git
-cd GreenGrid-AI
+git clone https://github.com/IoRagas/LightsFirst-Qiskit.git
+cd LightsFirst-Qiskit
 pip install -r requirements.txt
 ```
 
