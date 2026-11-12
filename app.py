@@ -36,44 +36,44 @@ st.markdown("""
     
     /* Top Banner */
     .app-header {
-        background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-        border-radius: 8px;
-        padding: 18px 24px;
+        background: linear-gradient(135deg, #070D18 0%, #151F32 100%);
+        border-radius: 12px;
+        padding: 20px 28px;
         color: #F8FAFC;
-        margin-bottom: 18px;
+        margin-bottom: 20px;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
     .app-header-title {
-        font-size: 1.45rem;
-        font-weight: 800;
+        font-size: 1.65rem;
+        font-weight: 900;
         letter-spacing: -0.02em;
         color: #FFFFFF;
     }
     .app-header-sub {
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         color: #94A3B8;
-        margin-top: 3px;
+        margin-top: 4px;
     }
     .app-header-tag {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         font-weight: 700;
         background: #0369A1;
         color: #E0F2FE;
-        padding: 6px 12px;
-        border-radius: 6px;
+        padding: 8px 14px;
+        border-radius: 8px;
         border: 1px solid #0284C7;
     }
     
     /* Step Control Panel */
     .step-control-card {
         background: #FFFFFF;
-        border: 2px solid #E2E8F0;
-        border-radius: 8px;
-        padding: 16px 20px;
+        border: 2px solid #CBD5E1;
+        border-radius: 12px;
+        padding: 20px 24px;
         margin-bottom: 20px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.04);
     }
@@ -81,34 +81,34 @@ st.markdown("""
     /* Phase Banner */
     .phase-badge-normal {
         background: #DCFCE7;
-        color: #15803D;
+        color: #14532D;
         border: 1px solid #86EFAC;
-        padding: 4px 10px;
-        border-radius: 4px;
+        padding: 4px 12px;
+        border-radius: 6px;
         font-weight: 700;
-        font-size: 0.8rem;
+        font-size: 0.82rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
     }
     .phase-badge-alert {
         background: #FEE2E2;
-        color: #B91C1C;
+        color: #7F1D1D;
         border: 1px solid #FCA5A5;
-        padding: 4px 10px;
-        border-radius: 4px;
+        padding: 4px 12px;
+        border-radius: 6px;
         font-weight: 700;
-        font-size: 0.8rem;
+        font-size: 0.82rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
     }
     .phase-badge-quantum {
         background: #F3E8FF;
-        color: #7E22CE;
+        color: #581C87;
         border: 1px solid #D8B4FE;
-        padding: 4px 10px;
-        border-radius: 4px;
+        padding: 4px 12px;
+        border-radius: 6px;
         font-weight: 700;
-        font-size: 0.8rem;
+        font-size: 0.82rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
     }
@@ -116,45 +116,47 @@ st.markdown("""
     /* Narrative Card */
     .narrative-card {
         background: #FFFFFF;
-        border-radius: 8px;
-        border: 1px solid #CBD5E1;
-        padding: 18px 20px;
+        border-radius: 12px;
+        border: 2px solid #E2E8F0;
+        padding: 22px 24px;
         margin-bottom: 16px;
         box-shadow: 0 2px 5px rgba(0,0,0,0.03);
     }
     .narrative-title {
-        font-size: 1.15rem;
+        font-size: 1.25rem;
         font-weight: 800;
         color: #0F172A;
         margin-bottom: 8px;
     }
     .narrative-body {
-        font-size: 0.92rem;
-        line-height: 1.55;
+        font-size: 0.95rem;
+        line-height: 1.6;
         color: #334155;
     }
     
-    /* Metric Highlights */
+    /* Metric Highlights - BIGGER NUMBERS */
     .hero-stat {
-        background: #F8FAFC;
-        border: 1px solid #E2E8F0;
-        border-radius: 6px;
-        padding: 12px 14px;
+        background: #FFFFFF;
+        border: 2px solid #E2E8F0;
+        border-radius: 12px;
+        padding: 16px 18px;
         text-align: center;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
     .hero-stat-label {
-        font-size: 0.72rem;
+        font-size: 0.75rem;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.08em;
         color: #64748B;
     }
     .hero-stat-val {
         font-family: 'JetBrains Mono', monospace;
-        font-size: 1.45rem;
+        font-size: 2.25rem;
         font-weight: 800;
         color: #0F172A;
-        margin-top: 3px;
+        margin-top: 4px;
+        line-height: 1.1;
     }
     
     /* SCADA Monospace Console */
@@ -558,19 +560,19 @@ def jump_to_step(idx):
 st.markdown("""
 <div class="app-header">
     <div>
-        <div class="app-header-title">⚡ Lights First: AI Work That Steps Aside When the City Needs Power</div>
-        <div class="app-header-sub">Interactive Smart Grid & Workload Migration Simulator | Qiskit Hackathon 2026 (Energy & Smart Infrastructure)</div>
+        <div class="app-header-title">LIGHTS FIRST: SMART GRID & AI WORKLOAD ORCHESTRATOR</div>
+        <div class="app-header-sub">Interactive Smart Grid Balancing & Compute Migration Simulator | Qiskit Hackathon 2026</div>
     </div>
-    <div class="app-header-tag">SCADA SIMULATOR ACTIVE</div>
+    <div class="app-header-tag">SCADA SIMULATOR LIVE</div>
 </div>
 """, unsafe_allow_html=True)
 
 
 # ------------------ SIDEBAR SCENARIO & PARAMETERS ------------------
 with st.sidebar:
-    st.markdown("### 🎛️ Simulation Scenario")
+    st.markdown("### Simulation Scenario")
     scenario_choice = st.selectbox(
-        "Select Disaster Event:",
+        "Select Grid Event:",
         options=list(SCENARIOS.keys()),
         format_func=lambda k: SCENARIOS[k]["title"],
         index=0
@@ -584,17 +586,17 @@ with st.sidebar:
     st.caption(current_scen_data["description"])
     st.markdown("---")
 
-    st.markdown("### 🧭 Step-by-Step Navigation")
+    st.markdown("### Timeline Navigation")
     steps_list = current_scen_data["steps"]
     for i, s in enumerate(steps_list):
         is_cur = (i == st.session_state.sim_step)
-        btn_label = f"{'▶ ' if is_cur else ''}{s['time']} - {s['phase_title']}"
+        btn_label = f"{'● ' if is_cur else ''}{s['time']} - {s['phase_title']}"
         if st.button(btn_label, key=f"sidebar_step_{i}", use_container_width=True, type="primary" if is_cur else "secondary"):
             st.session_state.sim_step = i
             st.rerun()
 
     st.markdown("---")
-    st.markdown("### ⚛️ Qiskit QAOA Core")
+    st.markdown("### Qiskit QAOA Core")
     st.caption("Solves acute deficit knapsack across clean corridors.")
     if st.button("Re-run Quantum Solver", use_container_width=True):
         with st.spinner("Executing QAOA on 8 qubits..."):
@@ -628,20 +630,19 @@ with st.container():
             icon = "● " if is_active else ("✓ " if is_done else f"{idx+1}. ")
             st.markdown(f'<div class="step-pill {status_cls}">{icon}{s["time"]}</div>', unsafe_allow_html=True)
     
-    st.markdown("<div style='height: 8px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
     
     # Tactile Action Buttons
-    c_btn1, c_btn2, c_btn3, c_btn4 = st.columns([1.2, 2.5, 2.5, 1.2])
+    c_btn1, c_btn2, c_btn3, c_btn4 = st.columns([1.2, 2.5, 3.5, 1.2])
     with c_btn1:
-        st.button("⏮ Reset", on_click=reset_sim, use_container_width=True)
+        st.button("Reset", on_click=reset_sim, use_container_width=True)
     with c_btn2:
-        st.button("◀ Previous Step", on_click=prev_step, disabled=(cur_step_idx == 0), use_container_width=True)
+        st.button("Previous Step", on_click=prev_step, disabled=(cur_step_idx == 0), use_container_width=True)
     with c_btn3:
-        btn_text = "▶ NEXT STEP: Something Happens!" if cur_step_idx < len(steps) - 1 else "✓ Simulation Complete"
+        btn_text = f"ADVANCE SIMULATION: {steps[cur_step_idx+1]['phase_title'].upper()} →" if cur_step_idx < len(steps) - 1 else "SIMULATION COMPLETE"
         st.button(btn_text, on_click=next_step, type="primary", disabled=(cur_step_idx == len(steps) - 1), use_container_width=True)
     with c_btn4:
-        # Fast Forward or jump to final result
-        st.button("⏭ Jump to End", on_click=lambda: jump_to_step(len(steps)-1), use_container_width=True)
+        st.button("End Phase", on_click=lambda: jump_to_step(len(steps)-1), use_container_width=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -700,7 +701,7 @@ col_left, col_right = st.columns([1.15, 1.0])
 
 # ==================== LEFT COLUMN: VISUAL MAP & SUBSTATIONS ====================
 with col_left:
-    st.markdown("#### 🗺️ National Grid Topology & Live Power Corridors")
+    st.markdown("#### National Grid Transmission Topology & Power Flow")
     
     # Construct Dynamic Plotly Map
     cities = {
@@ -813,7 +814,7 @@ with col_left:
         visible=True
     )
     fig_map.update_layout(
-        height=380,
+        height=480,
         margin=dict(l=0, r=0, t=10, b=10),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1, font=dict(size=10)),
         paper_bgcolor="#FFFFFF",
@@ -863,7 +864,7 @@ with col_left:
 
 # ==================== RIGHT COLUMN: STEP STORY & WORKLOAD ACTIONS ====================
 with col_right:
-    st.markdown(f"#### 📖 Phase {cur_step_idx + 1}: {cur_step['phase_title']}")
+    st.markdown(f"#### Phase {cur_step_idx + 1}: {cur_step['phase_title']}")
     
     # Narrative Explanation Card
     st.markdown(f"""
@@ -874,23 +875,23 @@ with col_right:
     """, unsafe_allow_html=True)
 
     # Dynamic Workload Action Board
-    st.markdown("##### 🚀 Live AI Workload Dispatch Board")
+    st.markdown("##### AI Workload Dispatch Board")
     
     if cur_step_idx == 0:
-        st.info("● **All 120 AI workloads are currently executing normally.** Grid has plenty of surplus clean power.")
+        st.info("All 120 AI workloads are currently executing normally. Grid has plenty of surplus clean power.")
     elif cur_step_idx in [1, 2]:
-        st.error("▲ **CRITICAL SHORTFALL DETECTED IN KARACHI:** Flexible AI compute must yield power immediately.")
+        st.error("CRITICAL SHORTFALL DETECTED IN KARACHI: Flexible AI compute must yield power immediately.")
         st.markdown("""
-        * **JOB-001 (Civil Hospital Radiology AI, 2.0 MW):** 🛡️ **SHIELDED LOCAL** (Diagnostic life-support).
-        * **JOB-042 (Urdu Foundation LLM Training, 4.2 MW):** ⚠️ **FLAGGED TO STEP ASIDE** (Non-urgent).
-        * **JOB-088 (Video Diffusion Model Latent Crawl, 3.5 MW):** ⚠️ **FLAGGED TO STEP ASIDE**.
-        * **JOB-095 (Multimodal Speech Translation, 3.0 MW):** ⚠️ **FLAGGED TO STEP ASIDE**.
-        * **JOB-103 (Hyperparameter Grid Search, 2.8 MW):** ⚠️ **FLAGGED TO STEP ASIDE**.
+        * **JOB-001 (Civil Hospital Radiology AI, 2.0 MW):** **SHIELDED LOCAL** (Diagnostic life-support).
+        * **JOB-042 (Urdu Foundation LLM Training, 4.2 MW):** **FLAGGED TO STEP ASIDE** (Non-urgent).
+        * **JOB-088 (Video Diffusion Model Latent Crawl, 3.5 MW):** **FLAGGED TO STEP ASIDE**.
+        * **JOB-095 (Multimodal Speech Translation, 3.0 MW):** **FLAGGED TO STEP ASIDE**.
+        * **JOB-103 (Hyperparameter Grid Search, 2.8 MW):** **FLAGGED TO STEP ASIDE**.
         """)
     elif cur_step_idx == 3:
         st.markdown("""
         <div style="background:#FAF5FF; border:1px solid #D8B4FE; border-radius:6px; padding:12px; margin-bottom:12px;">
-            <div style="font-weight:700; color:#7E22CE;">⚛️ Qiskit QAOA Core: Optimal Bitstring Found [1, 1, 0, 0]</div>
+            <div style="font-weight:700; color:#7E22CE;">Qiskit QAOA Core: Optimal Bitstring Found [1, 1, 0, 0]</div>
             <div style="font-size:0.85rem; color:#581C87; margin-top:4px;">
                 Classical greedy algorithms fail by attempting to energize too many large jobs, tripping lines. 
                 QAOA tunnels through penalty barriers to pick the exact Pareto optimal allocation with <b>99.72% approximation ratio</b>!
@@ -907,16 +908,16 @@ with col_right:
         st.plotly_chart(fig_conv, use_container_width=True)
 
     elif cur_step_idx == 4:
-        st.success("✈️ **DYNAMIC WORKLOAD MIGRATION IN PROGRESS:**")
+        st.success("DYNAMIC WORKLOAD MIGRATION IN PROGRESS:")
         st.markdown("""
-        * **JOB-042 (Urdu LLM 4.2 MW):** 🛫 **Migrated to Islamabad DC** (Tarbela Hydro: 85 g/kWh, -80% CO₂).
-        * **JOB-088 (Video Diffusion 3.5 MW):** 🛫 **Migrated to Lahore DC** (LESCO Industrial spare capacity).
-        * **JOB-095 (Multimodal Speech 3.0 MW):** 🛫 **Migrated to Multan Solar DC** (MEPCO).
-        * **JOB-103 (Hyperparameter Search 2.8 MW):** ⏸️ **Postponed to 23:00 PKT** (Safe cold storage, zero lost state).
-        * **JOB-001 (Emergency Radiology AI 2.0 MW):** 🟢 **100% Active in Karachi** on local hospital microgrid.
+        * **JOB-042 (Urdu LLM 4.2 MW):** **Migrated to Islamabad DC** (Tarbela Hydro: 85 g/kWh, -80% CO₂).
+        * **JOB-088 (Video Diffusion 3.5 MW):** **Migrated to Lahore DC** (LESCO Industrial spare capacity).
+        * **JOB-095 (Multimodal Speech 3.0 MW):** **Migrated to Multan Solar DC** (MEPCO).
+        * **JOB-103 (Hyperparameter Search 2.8 MW):** **Postponed to 23:00 PKT** (Safe cold storage, zero lost state).
+        * **JOB-001 (Emergency Radiology AI 2.0 MW):** **100% Active in Karachi** on local hospital microgrid.
         """)
     else:
-        st.success("🏆 **FINAL EQUILIBRIUM: HUMAN DIGNITY & GRID PRESERVED!**")
+        st.success("FINAL EQUILIBRIUM: HUMAN DIGNITY & GRID PRESERVED")
         st.markdown("""
         | Stakeholder Metric | Unregulated AI Grid (Status Quo) | Lights First (Our System) |
         | :--- | :---: | :---: |
