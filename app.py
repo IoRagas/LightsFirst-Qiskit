@@ -68,21 +68,21 @@ st.markdown("""
         border: 1px solid rgba(255, 255, 255, 0.4);
     }
     
-    /* Step Control Panel */
+    /* Step Control Panel with Visible Blue Borders & Deep Shadows */
     .step-control-card {
         background: #FFFFFF;
-        border: 2px solid #CBD5E1;
+        border: 2px solid #7DD3FC;
         border-radius: 12px;
         padding: 20px 24px;
         margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        box-shadow: 0 12px 28px -6px rgba(2, 132, 199, 0.16), 0 6px 12px -3px rgba(15, 23, 42, 0.05);
     }
     
     /* Phase Banner */
     .phase-badge-normal {
         background: #DCFCE7;
         color: #14532D;
-        border: 1px solid #86EFAC;
+        border: 2px solid #86EFAC;
         padding: 4px 12px;
         border-radius: 6px;
         font-weight: 700;
@@ -93,7 +93,7 @@ st.markdown("""
     .phase-badge-alert {
         background: #FEE2E2;
         color: #7F1D1D;
-        border: 1px solid #FCA5A5;
+        border: 2px solid #FCA5A5;
         padding: 4px 12px;
         border-radius: 6px;
         font-weight: 700;
@@ -104,7 +104,7 @@ st.markdown("""
     .phase-badge-quantum {
         background: #F3E8FF;
         color: #581C87;
-        border: 1px solid #D8B4FE;
+        border: 2px solid #D8B4FE;
         padding: 4px 12px;
         border-radius: 6px;
         font-weight: 700;
@@ -113,14 +113,14 @@ st.markdown("""
         letter-spacing: 0.05em;
     }
     
-    /* Narrative Card */
+    /* Narrative Card with Visible Blue Border & Deep Shadow */
     .narrative-card {
         background: #FFFFFF;
         border-radius: 12px;
-        border: 2px solid #E2E8F0;
+        border: 2px solid #7DD3FC;
         padding: 22px 24px;
         margin-bottom: 16px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        box-shadow: 0 12px 28px -6px rgba(2, 132, 199, 0.16), 0 6px 12px -3px rgba(15, 23, 42, 0.05);
     }
     .narrative-title {
         font-size: 1.25rem;
@@ -134,14 +134,14 @@ st.markdown("""
         color: #334155;
     }
     
-    /* Metric Highlights - BIGGER NUMBERS */
+    /* Metric Highlights - Visible Blue Border & Deep Floating Shadow */
     .hero-stat {
         background: #FFFFFF;
-        border: 2px solid #E2E8F0;
+        border: 2px solid #BAE6FD;
         border-radius: 12px;
         padding: 16px 18px;
         text-align: center;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        box-shadow: 0 10px 24px -4px rgba(2, 132, 199, 0.15), 0 4px 8px -2px rgba(15, 23, 42, 0.05);
     }
     .hero-stat-label {
         font-size: 0.75rem;
