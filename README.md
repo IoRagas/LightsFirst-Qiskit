@@ -2,7 +2,9 @@
 > **Qiskit Hackathon 2026 Official Submission**  
 > **Domain Track:** Domain 6 — Energy & Smart Infrastructure *(with cross-domain synergies in Disaster Response & Healthcare)*  
 > **Submission Deadline:** 12 Nov 2026, 11:59 PM  
-> **Submission Form:** [Google Form](https://forms.gle/jSRrXaHkjVb7G7AK8)
+> **Submission Form:** [Google Form](https://forms.gle/jSRrXaHkjVb7G7AK8)  
+> **GitHub Repository:** [https://github.com/IoRagas/LightsFirst-Qiskit](https://github.com/IoRagas/LightsFirst-Qiskit)  
+> **Streamlit 1-Click Deploy:** [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=IoRagas/LightsFirst-Qiskit&branch=main&mainModule=app.py)
 
 ---
 
