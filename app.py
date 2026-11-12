@@ -703,53 +703,83 @@ col_left, col_right = st.columns([1.15, 1.0])
 with col_left:
     st.markdown("#### National Grid Transmission Topology & Power Flow")
     
-    # Construct Dynamic Plotly Map
+    # Construct Dynamic Plotly Map with 8 Interconnected Grid Substations
     cities = {
         'Karachi': {
             'lat': 24.8607, 'lon': 67.0011,
             'name': 'Karachi (K-Electric)',
             'supply': cur_step['karachi_supply'],
-            'res': cur_step['karachi_res'],
-            'hosp': cur_step['karachi_hosp'],
-            'color': '#EF4444' if cur_step['karachi_avail_ai'] == 0.0 else ('#10B981' if cur_step['grid_state'] == 'success' else '#3B82F6')
+            'color': '#EF4444' if cur_step['karachi_avail_ai'] == 0.0 else ('#10B981' if cur_step['grid_state'] == 'success' else '#0284C7'),
+            'size': 20
+        },
+        'Sukkur': {
+            'lat': 27.7052, 'lon': 68.8574,
+            'name': 'Sukkur / Guddu (SEPCO 500kV Gateway)',
+            'color': '#F59E0B' if cur_step['karachi_avail_ai'] == 0.0 else '#10B981',
+            'size': 13
+        },
+        'Quetta': {
+            'lat': 30.1798, 'lon': 66.9750,
+            'name': 'Quetta (QESCO Western Grid)',
+            'color': '#10B981',
+            'size': 13
         },
         'Multan': {
             'lat': 30.1575, 'lon': 71.5249,
-            'name': 'Multan (MEPCO Solar)',
-            'supply': 50.0, 'res': 24.0, 'hosp': 18.0,
-            'color': '#10B981'
+            'name': 'Multan (MEPCO Solar Spine)',
+            'color': '#10B981',
+            'size': 15
+        },
+        'Faisalabad': {
+            'lat': 31.4504, 'lon': 73.1350,
+            'name': 'Faisalabad (FESCO Industrial Gatti)',
+            'color': '#0284C7' if cur_step_idx >= 4 else '#10B981',
+            'size': 14
         },
         'Lahore': {
             'lat': 31.5204, 'lon': 74.3587,
-            'name': 'Lahore (LESCO Industrial)',
-            'supply': 70.0, 'res': 25.0, 'hosp': 15.0,
-            'color': '#8B5CF6' if cur_step_idx >= 4 else '#10B981'
+            'name': 'Lahore (LESCO Commercial Metropole)',
+            'color': '#8B5CF6' if cur_step_idx >= 4 else '#10B981',
+            'size': 17
         },
         'Islamabad': {
             'lat': 33.6844, 'lon': 73.0479,
-            'name': 'Islamabad (IESCO Clean Hydro)',
-            'supply': 60.0, 'res': 20.0, 'hosp': 15.0,
-            'color': '#06B6D4' if cur_step_idx >= 4 else '#10B981'
+            'name': 'Islamabad (IESCO Clean Tarbela Hydro)',
+            'color': '#0284C7' if cur_step_idx >= 4 else '#10B981',
+            'size': 17
+        },
+        'Peshawar': {
+            'lat': 34.0151, 'lon': 71.5249,
+            'name': 'Peshawar (PESCO Khyber Hydro)',
+            'color': '#10B981',
+            'size': 13
         }
     }
 
     fig_map = go.Figure()
 
-    # Transmission Corridor Lines (Karachi - Multan - Lahore - Islamabad)
+    # Complete 500kV / 220kV Transmission Corridors
     corridors = [
-        ('Karachi', 'Multan'),
+        ('Karachi', 'Sukkur'),
+        ('Sukkur', 'Quetta'),
+        ('Sukkur', 'Multan'),
+        ('Multan', 'Faisalabad'),
         ('Multan', 'Lahore'),
-        ('Lahore', 'Islamabad')
+        ('Faisalabad', 'Lahore'),
+        ('Lahore', 'Islamabad'),
+        ('Islamabad', 'Peshawar')
     ]
     for c1, c2 in corridors:
-        line_color = '#EF4444' if (cur_step_idx == 1 and (c1 == 'Karachi' or c2 == 'Karachi')) else '#0284C7'
-        line_width = 4 if (cur_step_idx == 1 and (c1 == 'Karachi' or c2 == 'Karachi')) else 2.5
+        is_crisis = cur_step['karachi_avail_ai'] == 0.0 and (c1 == 'Karachi' or c2 == 'Karachi')
+        line_color = '#EF4444' if is_crisis else '#0284C7'
+        line_width = 4.5 if is_crisis else 2.5
         fig_map.add_trace(go.Scattergeo(
             lat=[cities[c1]['lat'], cities[c2]['lat']],
             lon=[cities[c1]['lon'], cities[c2]['lon']],
             mode='lines',
             line=dict(width=line_width, color=line_color),
-            hoverinfo='none',
+            hoverinfo='text',
+            text=f"500kV Corridor: {c1} ↔ {c2}",
             showlegend=False
         ))
 
@@ -780,29 +810,32 @@ with col_left:
 
     # City Node Markers
     for c_key, c_info in cities.items():
-        node_size = 22 if c_key == 'Karachi' else 17
+        node_size = c_info.get('size', 16)
+        supply_val = c_info.get('supply', 50.0)
+        hosp_val = c_info.get('hosp', 15.0)
+        res_val = c_info.get('res', 20.0)
         fig_map.add_trace(go.Scattergeo(
             lat=[c_info['lat']],
             lon=[c_info['lon']],
             mode='markers+text',
-            text=[f"<b>{c_key}</b><br>{c_info['supply']:.0f} MW"],
+            text=[f"<b>{c_key}</b>"],
             textposition='top center',
-            textfont=dict(family='Inter', size=11, color='#0F172A'),
+            textfont=dict(family='Inter', size=10, color='#0F172A'),
             marker=dict(
                 size=node_size,
                 color=c_info['color'],
                 line=dict(width=2, color='#FFFFFF')
             ),
             hoverinfo='text',
-            hovertext=f"<b>{c_info['name']}</b><br>Supply: {c_info['supply']} MW<br>Hospital: {c_info['hosp']} MW (Shielded)<br>Residential: {c_info['res']} MW",
+            hovertext=f"<b>{c_info['name']}</b><br>Supply Capacity: {supply_val:.0f} MW<br>Hospital Shield: {hosp_val:.0f} MW (Safe)<br>Residential: {res_val:.0f} MW",
             showlegend=False
         ))
 
     fig_map.update_geos(
         scope='asia',
-        center=dict(lat=29.5, lon=71.2),
-        lataxis_range=[23.5, 36.5],
-        lonaxis_range=[66.0, 76.5],
+        center=dict(lat=29.5, lon=70.8),
+        lataxis_range=[23.4, 35.8],
+        lonaxis_range=[65.2, 76.5],
         showcountries=True,
         countrycolor='#94A3B8',
         showsubunits=True,

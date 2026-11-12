@@ -273,16 +273,37 @@
         <section class="lg:col-span-6 floating-card rounded-xl p-4 flex flex-col justify-between h-full min-h-0 lightning-card">
             
             <!-- Map Header -->
-            <div class="flex justify-between items-center mb-2 shrink-0">
-                <div class="flex items-center gap-2">
-                    <span class="text-amber-500 font-bold text-base lightning-icon">⚡</span>
-                    <h2 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-800">
-                        National 500kV High-Voltage Topology & Clean Corridors
-                    </h2>
+            <div class="flex flex-col gap-1 mb-2 shrink-0">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <span class="text-amber-500 font-bold text-base lightning-icon">⚡</span>
+                        <h2 class="text-xs font-mono font-bold uppercase tracking-wider text-slate-800">
+                            National 500kV High-Voltage Topology & Clean Corridors
+                        </h2>
+                    </div>
+                    <span id="mapStatusBadge" class="text-[11px] font-mono font-bold px-3 py-0.5 rounded-full bg-sky-100 text-sky-800 border-2 border-sky-300 shadow-xs">
+                        Status: Nominal Grid
+                    </span>
                 </div>
-                <span id="mapStatusBadge" class="text-[11px] font-mono font-bold px-3 py-0.5 rounded-full bg-sky-100 text-sky-800 border-2 border-sky-300 shadow-xs">
-                    Status: Nominal Grid
-                </span>
+                <!-- 8 Interconnected Substations Breadcrumb -->
+                <div class="hidden sm:flex items-center gap-1.5 text-[9.5px] font-mono text-slate-500 overflow-x-auto whitespace-nowrap py-0.5">
+                    <span class="font-bold text-sky-700">8 GRID NODES:</span>
+                    <span class="text-slate-700 bg-sky-50 px-1.5 py-0.5 rounded border border-sky-200">Karachi</span>
+                    <span class="text-slate-400">↔</span>
+                    <span class="text-slate-700 bg-sky-50 px-1.5 py-0.5 rounded border border-sky-200">Sukkur/Guddu</span>
+                    <span class="text-slate-400">↔</span>
+                    <span class="text-slate-700 bg-sky-50 px-1.5 py-0.5 rounded border border-sky-200">Quetta</span>
+                    <span class="text-slate-400">↔</span>
+                    <span class="text-slate-700 bg-sky-50 px-1.5 py-0.5 rounded border border-sky-200">Multan</span>
+                    <span class="text-slate-400">↔</span>
+                    <span class="text-slate-700 bg-sky-50 px-1.5 py-0.5 rounded border border-sky-200">Faisalabad</span>
+                    <span class="text-slate-400">↔</span>
+                    <span class="text-slate-700 bg-sky-50 px-1.5 py-0.5 rounded border border-sky-200">Lahore</span>
+                    <span class="text-slate-400">↔</span>
+                    <span class="text-slate-700 bg-sky-50 px-1.5 py-0.5 rounded border border-sky-200">Islamabad</span>
+                    <span class="text-slate-400">↔</span>
+                    <span class="text-slate-700 bg-sky-50 px-1.5 py-0.5 rounded border border-sky-200">Peshawar</span>
+                </div>
             </div>
 
             <!-- Plotly Map Container (Visible 2px Sky Border with Deep Inner Glow) -->
@@ -747,20 +768,82 @@
 
         function renderMap() {
             const cities = {
-                'Karachi': { lat: 24.8607, lon: 67.0011, name: 'Karachi (KE)', color: (currentStepIndex === 1 || currentStepIndex === 2) ? '#EF4444' : (currentStepIndex >= 5 ? '#059669' : '#0284C7'), size: 22 },
-                'Multan': { lat: 30.1575, lon: 71.5249, name: 'Multan (MEPCO)', color: '#059669', size: 16 },
-                'Lahore': { lat: 31.5204, lon: 74.3587, name: 'Lahore (LESCO)', color: (currentStepIndex >= 4) ? '#9333EA' : '#059669', size: 18 },
-                'Islamabad': { lat: 33.6844, lon: 73.0479, name: 'Islamabad (IESCO)', color: (currentStepIndex >= 4) ? '#0284C7' : '#059669', size: 18 }
+                'Karachi': { 
+                    lat: 24.8607, lon: 67.0011, 
+                    name: 'Karachi (KE) | South Thermal Hub', 
+                    details: 'Thermal Peaker & Port DC | 80 MW',
+                    color: (currentStepIndex === 1 || currentStepIndex === 2) ? '#EF4444' : (currentStepIndex >= 5 ? '#059669' : '#0284C7'), 
+                    size: 22 
+                },
+                'Sukkur': { 
+                    lat: 27.7052, lon: 68.8574, 
+                    name: 'Sukkur / Guddu (SEPCO) | 500kV Gateway', 
+                    details: 'Thermal & 500kV Nexus | 65 MW',
+                    color: (currentStepIndex === 1 || currentStepIndex === 2) ? '#F59E0B' : '#059669', 
+                    size: 14 
+                },
+                'Quetta': { 
+                    lat: 30.1798, lon: 66.9750, 
+                    name: 'Quetta (QESCO) | Western Grid', 
+                    details: 'Balochistan Solar/Gas Peaker | 35 MW',
+                    color: '#059669', 
+                    size: 14 
+                },
+                'Multan': { 
+                    lat: 30.1575, lon: 71.5249, 
+                    name: 'Multan (MEPCO) | South Punjab Spine', 
+                    details: 'Solar Park & Central Switching | 50 MW',
+                    color: '#059669', 
+                    size: 16 
+                },
+                'Faisalabad': { 
+                    lat: 31.4504, lon: 73.1350, 
+                    name: 'Faisalabad (FESCO) | Industrial Load Hub', 
+                    details: 'Gatti 500kV Substation | 55 MW',
+                    color: (currentStepIndex >= 4) ? '#0284C7' : '#059669', 
+                    size: 15 
+                },
+                'Lahore': { 
+                    lat: 31.5204, lon: 74.3587, 
+                    name: 'Lahore (LESCO) | Commercial Metropole', 
+                    details: 'Combined Cycle & Mayo ICU | 70 MW',
+                    color: (currentStepIndex >= 4) ? '#9333EA' : '#059669', 
+                    size: 18 
+                },
+                'Islamabad': { 
+                    lat: 33.6844, lon: 73.0479, 
+                    name: 'Islamabad (IESCO) | Tarbela Hydro Hub', 
+                    details: 'Clean Hydro Powerhouse (85g CO2) | 60 MW',
+                    color: (currentStepIndex >= 4) ? '#0284C7' : '#059669', 
+                    size: 18 
+                },
+                'Peshawar': { 
+                    lat: 34.0151, lon: 71.5249, 
+                    name: 'Peshawar (PESCO) | Khyber Hydro Gateway', 
+                    details: 'Warsak/Tarbela Hydro Ring | 45 MW',
+                    color: '#059669', 
+                    size: 14 
+                }
             };
 
             const data = [];
 
-            // Transmission Corridors with Electric Glow
-            const corridors = [['Karachi', 'Multan'], ['Multan', 'Lahore'], ['Lahore', 'Islamabad']];
+            // Complete National 500kV / 220kV Transmission Corridors
+            const corridors = [
+                ['Karachi', 'Sukkur'],
+                ['Sukkur', 'Quetta'],
+                ['Sukkur', 'Multan'],
+                ['Multan', 'Faisalabad'],
+                ['Multan', 'Lahore'],
+                ['Faisalabad', 'Lahore'],
+                ['Lahore', 'Islamabad'],
+                ['Islamabad', 'Peshawar']
+            ];
+
             corridors.forEach(([c1, c2]) => {
-                const isKarachiCorridor = (c1 === 'Karachi' || c2 === 'Karachi');
-                const lineColor = (currentStepIndex === 1 && isKarachiCorridor) ? '#EF4444' : '#0284C7';
-                const lineWidth = (currentStepIndex === 1 && isKarachiCorridor) ? 5 : 3;
+                const isCrisisCorridor = (c1 === 'Karachi' || c2 === 'Karachi') && (currentStepIndex === 1 || currentStepIndex === 2);
+                const lineColor = isCrisisCorridor ? '#EF4444' : '#0284C7';
+                const lineWidth = isCrisisCorridor ? 5.5 : 2.8;
 
                 data.push({
                     type: 'scattergeo',
@@ -768,17 +851,19 @@
                     lon: [cities[c1].lon, cities[c2].lon],
                     mode: 'lines',
                     line: { width: lineWidth, color: lineColor },
-                    hoverinfo: 'none',
+                    hoverinfo: 'text',
+                    hovertext: `500kV Corridor: ${c1} ↔ ${c2}`,
                     showlegend: false
                 });
             });
 
             // Migration flight arcs on Step 4 & 5
             if (currentStepIndex >= 4) {
+                // Migration to Islamabad Tarbela Hydro
                 data.push({
                     type: 'scattergeo',
-                    lat: [24.8607, 29.2, 33.6844],
-                    lon: [67.0011, 70.1, 73.0479],
+                    lat: [24.8607, 28.5, 33.6844],
+                    lon: [67.0011, 70.0, 73.0479],
                     mode: 'lines+markers',
                     line: { width: 4, color: '#9333EA', dash: 'dash' },
                     marker: { size: [0, 9, 13], symbol: 'triangle-up', color: '#A855F7' },
@@ -786,14 +871,15 @@
                     hoverinfo: 'text',
                     showlegend: false
                 });
+                // Migration to Lahore / Faisalabad Industrial Hub
                 data.push({
                     type: 'scattergeo',
-                    lat: [24.8607, 28.0, 31.5204],
+                    lat: [24.8607, 27.8, 31.5204],
                     lon: [67.0011, 71.0, 74.3587],
                     mode: 'lines+markers',
                     line: { width: 3.5, color: '#D97706', dash: 'dot' },
                     marker: { size: [0, 8, 11], symbol: 'triangle-up', color: '#F59E0B' },
-                    text: ['', '⚡ JOB-088 (Diffusion 3.5 MW) -> Lahore', '⚡ Lahore LESCO DC'],
+                    text: ['', '⚡ JOB-088 (Diffusion 3.5 MW) -> Lahore LESCO', '⚡ Lahore LESCO DC'],
                     hoverinfo: 'text',
                     showlegend: false
                 });
@@ -809,14 +895,14 @@
                     mode: 'markers+text',
                     text: [`<b>${c}</b>`],
                     textposition: 'top center',
-                    textfont: { family: 'Inter, sans-serif', size: 11, color: '#0F172A' },
+                    textfont: { family: 'Inter, sans-serif', size: 10.5, color: '#0F172A' },
                     marker: {
                         size: city.size,
                         color: city.color,
                         line: { width: 2.5, color: '#FFFFFF' }
                     },
                     hoverinfo: 'text',
-                    hovertext: `<b>${city.name}</b>`,
+                    hovertext: `<b>${city.name}</b><br><span style="font-size:10px; color:#38BDF8;">${city.details}</span>`,
                     showlegend: false
                 });
             }
@@ -824,9 +910,9 @@
             const layout = {
                 geo: {
                     scope: 'asia',
-                    center: { lat: 29.5, lon: 71.2 },
-                    lataxis: { range: [23.5, 36.5] },
-                    lonaxis: { range: [66.0, 76.5] },
+                    center: { lat: 29.5, lon: 70.8 },
+                    lataxis: { range: [23.4, 35.8] },
+                    lonaxis: { range: [65.2, 76.5] },
                     showcountries: true,
                     countrycolor: '#94A3B8',
                     showland: true,
