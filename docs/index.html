@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lights First | AI Work That Steps Aside</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#F0F9FF',
+                            500: '#0284C7',
+                            900: '#0C4A6E',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F8FAFC; color: #0F172A; }
+        .scada-stream {
+            background-color: #090D16;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.76rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Header Navigation -->
+    <header class="bg-slate-900 border-b border-slate-800 text-white px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">⚡</span>
+                    <h1 class="text-xl font-extrabold tracking-tight">Lights First: AI Work That Steps Aside When the City Needs Power</h1>
+                </div>
+                <p class="text-xs text-slate-400 mt-1">Autonomous Smart Grid & Workload Migration Simulator | Qiskit Hackathon 2026 (Energy & Smart Infrastructure)</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="https://github.com/IoRagas/LightsFirst-Qiskit" target="_blank" class="text-xs font-mono font-semibold bg-slate-800 hover:bg-slate-700 text-sky-400 border border-slate-700 px-3 py-1.5 rounded-md transition">
+                    ★ GitHub Repo
+                </a>
+                <span class="text-xs font-mono font-semibold bg-emerald-950 text-emerald-400 border border-emerald-800 px-3 py-1.5 rounded-md">
+                    ● SCADA LIVE
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 flex-1 w-full space-y-6">
+
+        <!-- Stepper Control Bar -->
+        <div class="bg-white border-2 border-slate-200 rounded-xl p-5 shadow-sm space-y-4">
+            <!-- Stepper Breadcrumbs -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2" id="stepperPills">
+                <!-- Populated via JS -->
+            </div>
+
+            <!-- Action Controls -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100">
+                <div class="flex items-center gap-2">
+                    <button onclick="resetSimulation()" class="text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg transition border border-slate-300">
+                        ⏮ Reset
+                    </button>
+                    <button id="prevBtn" onclick="prevStep()" class="text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg transition border border-slate-300 disabled:opacity-40">
+                        ◀ Previous Step
+                    </button>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <button id="nextBtn" onclick="nextStep()" class="text-sm font-extrabold bg-sky-600 hover:bg-sky-500 text-white px-6 py-2.5 rounded-lg shadow-md transition transform active:scale-95 flex items-center gap-2">
+                        <span>▶ NEXT STEP: Something Happens!</span>
+                    </button>
+                    <button id="autoPlayBtn" onclick="toggleAutoPlay()" class="text-xs font-bold bg-slate-800 hover:bg-slate-700 text-sky-300 px-3 py-2 rounded-lg transition border border-slate-700">
+                        ⚡ Auto-Play
+                    </button>
+                </div>
+
+                <div class="text-xs text-slate-500 font-medium">
+                    Scenario: <span class="font-bold text-slate-800">Karachi 48°C Heatwave</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI Hero Metric Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+            <div class="bg-white border border-slate-200 rounded-lg p-3.5 shadow-sm text-center">
+                <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase">Simulated Time</div>
+                <div id="statTime" class="font-mono text-xl font-extrabold text-sky-600 mt-1">12:00 PM PKT</div>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-lg p-3.5 shadow-sm text-center">
+                <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase">Karachi AI Surplus</div>
+                <div id="statSurplus" class="font-mono text-xl font-extrabold text-emerald-600 mt-1">25.0 MW</div>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-lg p-3.5 shadow-sm text-center">
+                <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase">Hospital Life-Support</div>
+                <div id="statHospital" class="font-mono text-xl font-extrabold text-emerald-600 mt-1">100.0% Safe</div>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-lg p-3.5 shadow-sm text-center">
+                <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase">Homes Kept Powered</div>
+                <div id="statHomes" class="font-mono text-xl font-extrabold text-amber-600 mt-1">0</div>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-lg p-3.5 shadow-sm text-center col-span-2 md:col-span-1">
+                <div class="text-[11px] font-bold text-slate-400 tracking-wider uppercase">Simulation Phase</div>
+                <div id="statPhase" class="inline-block mt-1.5 px-2.5 py-0.5 rounded text-xs font-bold bg-emerald-100 text-emerald-800">
+                    Step 1 of 6
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Visual Stage (2 Columns) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Left Column: Map & Substations (7 Cols) -->
+            <div class="lg:col-span-7 space-y-4">
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+                    <div class="flex justify-between items-center mb-2">
+                        <h2 class="text-sm font-bold text-slate-800 flex items-center gap-2">
+                            <span>🗺️</span> National Grid Topology & Live Power Flow
+                        </h2>
+                        <span id="mapStatusBadge" class="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600">
+                            Grid Status: Nominal
+                        </span>
+                    </div>
+                    
+                    <!-- Plotly Map Container -->
+                    <div id="pakistanMap" class="w-full h-[370px]"></div>
+
+                    <!-- 4 Substation Telemetry Mini-Cards -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3 pt-3 border-t border-slate-100">
+                        <div id="cardKarachi" class="border border-slate-200 rounded p-2 text-center transition">
+                            <div class="text-xs font-bold">Karachi (KE)</div>
+                            <div id="mwKarachi" class="font-mono text-sm font-extrabold text-slate-800">80 MW</div>
+                            <div id="tempKarachi" class="text-[10px] text-slate-500">34°C</div>
+                            <div class="text-[10px] text-emerald-600 font-semibold">Civil Hosp: 20 MW Safe</div>
+                        </div>
+                        <div id="cardLahore" class="border border-slate-200 rounded p-2 text-center transition">
+                            <div class="text-xs font-bold">Lahore (LESCO)</div>
+                            <div class="font-mono text-sm font-extrabold text-slate-800">70 MW</div>
+                            <div class="text-[10px] text-slate-500">Combined Cycle</div>
+                            <div class="text-[10px] text-emerald-600 font-semibold">Mayo Hosp: 15 MW Safe</div>
+                        </div>
+                        <div id="cardIslamabad" class="border border-slate-200 rounded p-2 text-center transition">
+                            <div class="text-xs font-bold">Islamabad (IESCO)</div>
+                            <div class="font-mono text-sm font-extrabold text-sky-700">60 MW</div>
+                            <div class="text-[10px] text-slate-500">Tarbela Hydro</div>
+                            <div class="text-[10px] text-emerald-600 font-semibold">PIMS: 15 MW Safe</div>
+                        </div>
+                        <div id="cardMultan" class="border border-slate-200 rounded p-2 text-center transition">
+                            <div class="text-xs font-bold">Multan (MEPCO)</div>
+                            <div class="font-mono text-sm font-extrabold text-slate-800">50 MW</div>
+                            <div class="text-[10px] text-slate-500">Solar & Peaker</div>
+                            <div class="text-[10px] text-emerald-600 font-semibold">Nishtar: 18 MW Safe</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Narrative & Workloads (5 Cols) -->
+            <div class="lg:col-span-5 space-y-4">
+                <!-- Narrative Story Card -->
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span id="narrativeBadge" class="text-xs font-extrabold px-2.5 py-1 rounded uppercase tracking-wide bg-emerald-100 text-emerald-800">
+                            PHASE 1: NOMINAL
+                        </span>
+                        <span id="narrativeTime" class="text-xs font-mono font-bold text-slate-500">12:00 PM</span>
+                    </div>
+                    <h3 id="narrativeTitle" class="text-base font-extrabold text-slate-900 leading-snug">
+                        Karachi, Lahore, Islamabad, and Multan Operating in Balance
+                    </h3>
+                    <p id="narrativeStory" class="text-xs text-slate-600 leading-relaxed">
+                        It is noon in Pakistan. Temperatures are moderate. K-Electric has 80 MW of generation supply. Hospital baselines (Civil Hospital, JPMC: 20 MW) and residential baselines (25 MW) are fully met. With 10 MW reserve margin, Karachi has 25 MW surplus capacity, allowing 120 AI workloads to run smoothly across the country.
+                    </p>
+                </div>
+
+                <!-- Live Workload Dispatch Board -->
+                <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
+                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center justify-between">
+                        <span>🚀 AI Workload Allocation Board</span>
+                        <span id="workloadCountBadge" class="text-[11px] font-mono text-slate-500">120 Jobs Active</span>
+                    </h4>
+                    
+                    <div id="workloadList" class="space-y-2 text-xs">
+                        <!-- Populated via JS -->
+                    </div>
+
+                    <!-- Step 4 Mini Quantum Convergence Chart (hidden by default) -->
+                    <div id="quantumWidget" class="hidden p-3 bg-purple-50 border border-purple-200 rounded-lg space-y-2">
+                        <div class="flex justify-between items-center text-xs font-bold text-purple-900">
+                            <span>⚛️ Qiskit QAOA Core Convergence (p=2)</span>
+                            <span class="font-mono text-purple-700">r = 99.72%</span>
+                        </div>
+                        <div id="qaoaMiniPlot" class="w-full h-32"></div>
+                    </div>
+
+                    <!-- Step 6 Final Scorecard (hidden by default) -->
+                    <div id="scorecardWidget" class="hidden p-3 bg-emerald-50 border border-emerald-200 rounded-lg space-y-2">
+                        <div class="text-xs font-extrabold text-emerald-900">🏆 Human Impact Scorecard</div>
+                        <table class="w-full text-[11px] text-left">
+                            <tr class="border-b border-emerald-200">
+                                <td class="py-1 text-slate-600">Homes Cut into Darkness</td>
+                                <td class="py-1 text-right line-through text-red-600">16,000</td>
+                                <td class="py-1 text-right font-bold text-emerald-700">0 (Zero!)</td>
+                            </tr>
+                            <tr class="border-b border-emerald-200">
+                                <td class="py-1 text-slate-600">Hospital Power Outages</td>
+                                <td class="py-1 text-right text-red-600">High Risk</td>
+                                <td class="py-1 text-right font-bold text-emerald-700">100% Shielded</td>
+                            </tr>
+                            <tr>
+                                <td class="py-1 text-slate-600">Carbon Saved (Hydro Reroute)</td>
+                                <td class="py-1 text-right text-slate-400">0 kg</td>
+                                <td class="py-1 text-right font-bold text-emerald-700">-2,880 kg CO₂e</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Callout Advance Button -->
+                    <button id="advanceCalloutBtn" onclick="nextStep()" class="w-full py-2 px-3 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5 shadow">
+                        <span>👉 Advance to 02:00 PM (Heatwave Strikes)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCADA Live Telemetry Console Stream -->
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm space-y-2">
+            <div class="flex justify-between items-center">
+                <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                    <span>📟</span> Substation SCADA Console Telemetry Stream
+                </span>
+                <span class="text-[11px] font-mono text-slate-400">NTDC / K-Electric EMS v4.12</span>
+            </div>
+            <div id="scadaLogs" class="scada-stream p-3 rounded-lg text-sky-400 max-h-36 overflow-y-auto space-y-1">
+                <!-- Populated via JS -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 text-slate-400 py-4 text-center text-xs">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <span>Lights First — Qiskit Hackathon 2026 Submission</span>
+            <div class="flex gap-4">
+                <a href="https://github.com/IoRagas/LightsFirst-Qiskit" class="hover:text-white underline">GitHub Repository</a>
+                <a href="https://share.streamlit.io/deploy?repository=IoRagas/LightsFirst-Qiskit&branch=main&mainModule=app.py" target="_blank" class="hover:text-white underline">Streamlit Community Cloud</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Simulation Engine JS -->
+    <script>
+        const simulationSteps = [
+            {
+                time: "12:00 PM",
+                phaseTitle: "Normal Grid Equilibrium",
+                badgeClass: "bg-emerald-100 text-emerald-800",
+                badgeText: "PHASE 1: NOMINAL",
+                headline: "Karachi, Lahore, Islamabad, and Multan Operating in Balance",
+                story: "It is noon in Pakistan. Temperatures are moderate. K-Electric has 80 MW of generation supply. Hospital baselines (Civil Hospital, JPMC: 20 MW) and residential baselines (25 MW) are fully met. With 10 MW reserve margin, Karachi has 25 MW surplus capacity, allowing 120 AI workloads to run smoothly across the country.",
+                karachiSupply: 80,
+                karachiTemp: "34°C",
+                karachiSurplus: 25.0,
+                hospitalSafe: 100.0,
+                homesSaved: 0,
+                statusText: "All 120 AI workloads executing smoothly on clean surplus power.",
+                mapStatus: "Grid Status: Nominal Equilibrium",
+                workloads: [
+                    { id: "JOB-001", name: "Civil Hospital Diagnostic Radiology AI", mw: "2.0", status: "Running (Local)", color: "text-emerald-700 bg-emerald-50 border-emerald-200" },
+                    { id: "JOB-042", name: "Urdu Foundation LLM Training", mw: "4.2", status: "Running (Local)", color: "text-slate-700 bg-slate-50 border-slate-200" },
+                    { id: "JOB-088", name: "Video Diffusion Latent Crawl", mw: "3.5", status: "Running (Local)", color: "text-slate-700 bg-slate-50 border-slate-200" },
+                    { id: "JOB-103", name: "Hyperparameter Grid Search", mw: "2.8", status: "Running (Local)", color: "text-slate-700 bg-slate-50 border-slate-200" }
+                ],
+                logs: [
+                    "[12:00:00] SCADA: National grid frequency synchronized at 50.00 Hz.",
+                    "[12:00:02] K-Electric generation: 80.0 MW. Hospital baseline: 20.0 MW [Nominal].",
+                    "[12:00:05] Available AI compute surplus in Karachi: 25.0 MW. 120 jobs active."
+                ]
+            },
+            {
+                time: "02:00 PM",
+                phaseTitle: "48°C Heatwave Strikes",
+                badgeClass: "bg-red-100 text-red-800",
+                badgeText: "PHASE 2: HEATWAVE PEAK",
+                headline: "CRITICAL EMERGENCY: Residential Cooling Surges +15 MW",
+                story: "At 2:00 PM, temperatures cross 48°C in Karachi. Millions of citizens switch on fans, water pumps, and air conditioners. Residential demand surges from 25 MW to 40 MW (+60% surge). K-Electric generation is physically maxed at 80 MW. Surplus power for AI computing crashes to ZERO! If nothing yields, the utility must forcibly cut power to 16,000 homes or risk tripping the whole city into a blackout.",
+                karachiSupply: 80,
+                karachiTemp: "48.2°C 🔥",
+                karachiSurplus: 0.0,
+                hospitalSafe: 100.0,
+                homesSaved: 0,
+                statusText: "DEFICIT DETECTED: 5 AI training jobs in Karachi (15.5 MW) breaching local thermal limits!",
+                mapStatus: "ALERT: 15 MW Generation Shortfall Detected",
+                workloads: [
+                    { id: "JOB-001", name: "Civil Hospital Radiology AI", mw: "2.0", status: "🛡️ High Priority (Keep Local)", color: "text-emerald-700 bg-emerald-50 border-emerald-300 font-bold" },
+                    { id: "JOB-042", name: "Urdu Foundation LLM Training", mw: "4.2", status: "⚠️ Flagged to Step Aside", color: "text-red-700 bg-red-50 border-red-300 font-semibold" },
+                    { id: "JOB-088", name: "Video Diffusion Latent Crawl", mw: "3.5", status: "⚠️ Flagged to Step Aside", color: "text-red-700 bg-red-50 border-red-300 font-semibold" },
+                    { id: "JOB-103", name: "Hyperparameter Grid Search", mw: "2.8", status: "⚠️ Flagged to Step Aside", color: "text-red-700 bg-red-50 border-red-300 font-semibold" }
+                ],
+                logs: [
+                    "[14:00:01] SENSOR: Karachi ambient temperature rises to 48.2°C.",
+                    "[14:00:03] LOAD SURGE: Residential demand spikes from 25.0 MW to 40.0 MW (+15 MW).",
+                    "[14:00:06] CRITICAL DEFICIT: Available power for flexible computing dropped to 0.0 MW!",
+                    "[14:00:09] ALERT: 16,000 households at immediate risk of emergency load-shedding."
+                ]
+            },
+            {
+                time: "02:05 PM",
+                phaseTitle: "Hospital Shielding",
+                badgeClass: "bg-red-100 text-red-800",
+                badgeText: "PHASE 3: COMPUTE INTERCEPTION",
+                headline: "Inviolable Life-Support Lock: Hospitals Shielded, Flexible AI Intercepted",
+                story: "The Lights First controller automatically engages! Hospital intensive care units at Civil Hospital and JPMC (20.0 MW) are mathematically locked as an INVIOLABLE hard constraint. They can never be shed. Simultaneously, the controller intercepts 5 AI workloads in Karachi. It recognizes that emergency hospital radiology AI must stay local, while large generative model training can step aside to other cities or later hours.",
+                karachiSupply: 80,
+                karachiTemp: "48.2°C",
+                karachiSurplus: 0.0,
+                hospitalSafe: 100.0,
+                homesSaved: 0,
+                statusText: "Civil Hospital Radiology locked local. 4 non-urgent training jobs selected to yield power.",
+                mapStatus: "Life-Support Lock Active | Dispatching Quantum Core",
+                workloads: [
+                    { id: "JOB-001", name: "Civil Hospital Radiology AI", mw: "2.0", status: "🔒 LOCKED TO LOCAL MICROGRID", color: "text-emerald-800 bg-emerald-100 border-emerald-400 font-bold" },
+                    { id: "JOB-042", name: "Urdu Foundation LLM Training", mw: "4.2", status: "⏳ Preemption Queue (Yielding)", color: "text-amber-800 bg-amber-50 border-amber-300 font-medium" },
+                    { id: "JOB-088", name: "Video Diffusion Latent Crawl", mw: "3.5", status: "⏳ Preemption Queue (Yielding)", color: "text-amber-800 bg-amber-50 border-amber-300 font-medium" },
+                    { id: "JOB-103", name: "Hyperparameter Grid Search", mw: "2.8", status: "⏳ Preemption Queue (Yielding)", color: "text-amber-800 bg-amber-50 border-amber-300 font-medium" }
+                ],
+                logs: [
+                    "[14:05:01] CONTROLLER: Inviolable life-support shield activated for Civil Hospital (20.0 MW).",
+                    "[14:05:03] POLICY: JOB-001 (Civil Hospital Radiology AI, 2.0 MW) locked to local microgrid.",
+                    "[14:05:06] PREEMPTION: 4 flexible jobs flagged to yield 13.5 MW for municipal fans/pumps.",
+                    "[14:05:08] DISPATCH: Invoking Qiskit 2.x QAOA Quantum Core for inter-city deficit allocation."
+                ]
+            },
+            {
+                time: "02:10 PM",
+                phaseTitle: "Qiskit QAOA Core",
+                badgeClass: "bg-purple-100 text-purple-800",
+                badgeText: "PHASE 4: QUANTUM OPTIMIZATION",
+                headline: "Quantum Solver Resolves Multi-Choice Deficit Knapsack (r = 99.7%)",
+                story: "When multiple critical jobs compete for tight clean power corridors, classical greedy dispatch trips lines by sorting myopically. Lights First compiles the decision into an 8-qubit constrained deficit QUBO with binary slack variables. Qiskit QAOA (p=2 layers, COBYLA) explores the 2^8 = 256 state space in superposition, finding the optimal trade-off with a 99.7% approximation ratio: exact bitstring [1, 1, 0, 0].",
+                karachiSupply: 80,
+                karachiTemp: "48.1°C",
+                karachiSurplus: 0.0,
+                hospitalSafe: 100.0,
+                homesSaved: 8500,
+                statusText: "QAOA determined optimal migration plan: Reroute to Tarbela Hydro, defer non-urgent batch.",
+                mapStatus: "QAOA Ground State [1, 1, 0, 0] Resolved in 180ms",
+                workloads: [
+                    { id: "JOB-001", name: "Civil Hospital Radiology AI", mw: "2.0", status: "🔒 PRESERVED LOCAL (Ground Truth)", color: "text-emerald-800 bg-emerald-100 border-emerald-400 font-bold" },
+                    { id: "JOB-042", name: "Urdu Foundation LLM Training", mw: "4.2", status: "⚛️ QAOA: Route to Tarbela Hydro", color: "text-purple-800 bg-purple-50 border-purple-300 font-bold" },
+                    { id: "JOB-088", name: "Video Diffusion Latent Crawl", mw: "3.5", status: "⚛️ QAOA: Route to Lahore LESCO", color: "text-purple-800 bg-purple-50 border-purple-300 font-bold" },
+                    { id: "JOB-103", name: "Hyperparameter Grid Search", mw: "2.8", status: "⚛️ QAOA: Defer to 23:00 Off-Peak", color: "text-purple-800 bg-purple-50 border-purple-300 font-bold" }
+                ],
+                logs: [
+                    "[14:10:00] QISKIT QAOA: Mapped 8-qubit Ising Hamiltonian (36 Pauli-Z couplings).",
+                    "[14:10:01] QISKIT QAOA: p=2 circuit executed with COBYLA classical feedback (80 iterations).",
+                    "[14:10:02] BENCHMARK: QAOA energy matches Exact Classical Ground Truth (-24.90). Ratio: 99.72%.",
+                    "[14:10:03] DECISION: Optimal state [1, 1, 0, 0] selected in 180 ms."
+                ]
+            },
+            {
+                time: "02:15 PM",
+                phaseTitle: "AI Workloads Migrate",
+                badgeClass: "bg-indigo-100 text-indigo-800",
+                badgeText: "PHASE 5: FLIGHT MIGRATION",
+                headline: "Flexible Compute Lifts Off: Migrating to Northern Hydro in Islamabad & Lahore",
+                story: "Watch the map! Non-urgent AI workloads gracefully lift off from Karachi. The 4.2 MW Urdu LLM training job migrates along the 500kV corridor to Islamabad, where clean Tarbela Hydro generates power at just 85 g CO₂/kWh (an 80% emissions reduction). Video diffusion moves to Lahore. Hyperparameter search is paused until 11:00 PM. Karachi data center power draw drops immediately by 15 MW!",
+                karachiSupply: 80,
+                karachiTemp: "47.8°C",
+                karachiSurplus: 0.0,
+                hospitalSafe: 100.0,
+                homesSaved: 14000,
+                statusText: "MIGRATING: JOB-042 -> Islamabad Hydro | JOB-088 -> Lahore | JOB-103 -> Postponed to night.",
+                mapStatus: "Active Workload Flight Arcs | 15 MW Curtailed",
+                workloads: [
+                    { id: "JOB-042", name: "Urdu LLM 4.2 MW", mw: "4.2", status: "✈️ IN TRANSIT ➔ Islamabad Hydro", color: "text-indigo-800 bg-indigo-50 border-indigo-300 font-bold animate-pulse" },
+                    { id: "JOB-088", name: "Video Diffusion 3.5 MW", mw: "3.5", status: "✈️ IN TRANSIT ➔ Lahore LESCO", color: "text-amber-800 bg-amber-50 border-amber-300 font-bold animate-pulse" },
+                    { id: "JOB-103", name: "Hyperparameter 2.8 MW", mw: "2.8", status: "⏸️ DEFERRED TO 23:00 OFF-PEAK", color: "text-slate-600 bg-slate-100 border-slate-300" },
+                    { id: "JOB-001", name: "Emergency Radiology AI", mw: "2.0", status: "🟢 100% ACTIVE (Hospital Microgrid)", color: "text-emerald-800 bg-emerald-100 border-emerald-400 font-bold" }
+                ],
+                logs: [
+                    "[14:15:02] MIGRATION: JOB-042 (Urdu LLM 4.2 MW) state transferred to Islamabad DC (Tarbela Hydro).",
+                    "[14:15:05] MIGRATION: JOB-088 (Diffusion 3.5 MW) routed to Lahore LESCO industrial grid.",
+                    "[14:15:08] POSTPONEMENT: JOB-103 deferred to 23:00 off-peak night window.",
+                    "[14:15:11] TELEMETRY: Karachi data center consumption curtailed by 15.0 MW in 1.4 seconds."
+                ]
+            },
+            {
+                time: "02:30 PM",
+                phaseTitle: "Grid Stabilized",
+                badgeClass: "bg-emerald-100 text-emerald-800",
+                badgeText: "PHASE 6: RESTORED",
+                headline: "SUCCESS: Fans & Pumps Kept Running, 100% Life Support Protected",
+                story: "The Karachi power grid returns to safe equilibrium! K-Electric frequency stabilizes at 50.00 Hz. Because flexible AI stepped aside, over 16,000 families in Karachi kept their ceiling fans spinning and water pumps running through the peak of the 48°C heatwave. Civil Hospital and JPMC experienced ZERO power flickers. AI jobs complete safely on clean northern hydro, cutting total emissions by 2,880 kg CO₂e.",
+                karachiSupply: 80,
+                karachiTemp: "47.2°C",
+                karachiSurplus: 0.0,
+                hospitalSafe: 100.0,
+                homesSaved: 16000,
+                statusText: "115/120 jobs scheduled (95.8%). 5 jobs deferred to night without losing training state.",
+                mapStatus: "Equilibrium Restored: 16,000 Homes Kept Powered",
+                workloads: [
+                    { id: "JOB-001", name: "Civil Hospital Radiology AI", mw: "2.0", status: "✅ COMPLETED LOCAL (0 Flickers)", color: "text-emerald-800 bg-emerald-100 border-emerald-400 font-bold" },
+                    { id: "JOB-042", name: "Urdu Foundation LLM Training", mw: "4.2", status: "✅ RUNNING ON TARBELA HYDRO", color: "text-sky-800 bg-sky-100 border-sky-400 font-bold" },
+                    { id: "JOB-088", name: "Video Diffusion Latent Crawl", mw: "3.5", status: "✅ RUNNING ON LAHORE LESCO", color: "text-emerald-800 bg-emerald-50 border-emerald-300 font-semibold" },
+                    { id: "JOB-103", name: "Hyperparameter Grid Search", mw: "2.8", status: "🌙 QUEUED FOR 23:00 OFF-PEAK", color: "text-slate-600 bg-slate-100 border-slate-300" }
+                ],
+                logs: [
+                    "[14:30:00] SCADA: Karachi grid frequency locked at 50.00 Hz. Line loading normalized to 72%.",
+                    "[14:30:02] HUMAN IMPACT: 16,000 households powered with continuous fan/water pump operation.",
+                    "[14:30:05] LIFE SUPPORT: Civil Hospital & JPMC ICU demand: 100.0% satisfied (0 interruptions).",
+                    "[14:30:08] SUSTAINABILITY: 2,880 kg CO₂e saved via northern hydro clean corridor dispatch."
+                ]
+            }
+        ];
+
+        let currentStepIndex = 0;
+        let autoPlayTimer = null;
+
+        function updateUI() {
+            const step = simulationSteps[currentStepIndex];
+
+            // Render Stepper Pills
+            const stepperContainer = document.getElementById("stepperPills");
+            stepperContainer.innerHTML = simulationSteps.map((s, idx) => {
+                const isActive = (idx === currentStepIndex);
+                const isDone = (idx < currentStepIndex);
+                const cls = isActive ? "bg-sky-600 text-white font-bold border-sky-700 shadow-sm" : 
+                            (isDone ? "bg-slate-200 text-slate-700 font-medium border-slate-300" : "bg-slate-50 text-slate-400 border-slate-200");
+                const icon = isActive ? "● " : (isDone ? "✓ " : `${idx+1}. `);
+                return `<button onclick="jumpToStep(${idx})" class="text-xs p-2 rounded-lg border text-center transition truncate ${cls}">
+                            ${icon}${s.time}
+                        </button>`;
+            }).join("");
+
+            // Update Hero Stats
+            document.getElementById("statTime").innerText = step.time + " PKT";
+            
+            const surplusEl = document.getElementById("statSurplus");
+            surplusEl.innerText = step.karachiSurplus.toFixed(1) + " MW";
+            surplusEl.className = "font-mono text-xl font-extrabold mt-1 " + (step.karachiSurplus > 5 ? "text-emerald-600" : (step.karachiSurplus === 0 ? "text-red-600" : "text-amber-600"));
+
+            document.getElementById("statHospital").innerText = step.hospitalSafe.toFixed(1) + "% Safe";
+            
+            const homesEl = document.getElementById("statHomes");
+            homesEl.innerText = (step.homesSaved > 0 ? "+" : "") + step.homesSaved.toLocaleString();
+            homesEl.className = "font-mono text-xl font-extrabold mt-1 " + (step.homesSaved > 0 ? "text-amber-600" : "text-slate-400");
+
+            document.getElementById("statPhase").innerText = `Step ${currentStepIndex + 1} of ${simulationSteps.length}`;
+            document.getElementById("statPhase").className = "inline-block mt-1.5 px-2.5 py-0.5 rounded text-xs font-bold " + step.badgeClass;
+
+            // Update Narrative
+            document.getElementById("narrativeBadge").className = "text-xs font-extrabold px-2.5 py-1 rounded uppercase tracking-wide " + step.badgeClass;
+            document.getElementById("narrativeBadge").innerText = step.badgeText;
+            document.getElementById("narrativeTime").innerText = step.time;
+            document.getElementById("narrativeTitle").innerText = step.headline;
+            document.getElementById("narrativeStory").innerText = step.story;
+            document.getElementById("mapStatusBadge").innerText = step.mapStatus;
+
+            // Update Workloads
+            const wlContainer = document.getElementById("workloadList");
+            wlContainer.innerHTML = step.workloads.map(w => `
+                <div class="border rounded p-2 flex justify-between items-center ${w.color}">
+                    <div>
+                        <span class="font-mono font-bold mr-1.5">${w.id}:</span>
+                        <span>${w.name}</span>
+                        <span class="font-mono text-slate-500 text-[10px] ml-1">(${w.mw} MW)</span>
+                    </div>
+                    <span class="font-bold text-[11px] whitespace-nowrap ml-2">${w.status}</span>
+                </div>
+            `).join("");
+
+            // Show / Hide widgets
+            const qWidget = document.getElementById("quantumWidget");
+            if (currentStepIndex === 3) {
+                qWidget.classList.remove("hidden");
+                renderQAOAPlot();
+            } else {
+                qWidget.classList.add("hidden");
+            }
+
+            const scoreWidget = document.getElementById("scorecardWidget");
+            if (currentStepIndex === 5) {
+                scoreWidget.classList.remove("hidden");
+            } else {
+                scoreWidget.classList.add("hidden");
+            }
+
+            // Update advance button
+            const advBtn = document.getElementById("advanceCalloutBtn");
+            const nextBtn = document.getElementById("nextBtn");
+            const prevBtn = document.getElementById("prevBtn");
+
+            prevBtn.disabled = (currentStepIndex === 0);
+            
+            if (currentStepIndex < simulationSteps.length - 1) {
+                const nextStepData = simulationSteps[currentStepIndex + 1];
+                advBtn.innerHTML = `<span>👉 Advance to ${nextStepData.time} (${nextStepData.phaseTitle})</span>`;
+                advBtn.classList.remove("hidden");
+                nextBtn.innerHTML = `<span>▶ NEXT STEP: Something Happens!</span>`;
+                nextBtn.disabled = false;
+            } else {
+                advBtn.classList.add("hidden");
+                nextBtn.innerHTML = `<span>✓ Simulation Complete</span>`;
+                nextBtn.disabled = true;
+            }
+
+            // Update Substation card styles
+            const cardKE = document.getElementById("cardKarachi");
+            const mwKE = document.getElementById("mwKarachi");
+            const tempKE = document.getElementById("tempKarachi");
+            mwKE.innerText = step.karachiSupply + " MW";
+            tempKE.innerText = step.karachiTemp;
+            if (currentStepIndex === 1 || currentStepIndex === 2) {
+                cardKE.className = "border-2 border-red-500 bg-red-50 rounded p-2 text-center transition";
+                mwKE.className = "font-mono text-sm font-extrabold text-red-600";
+            } else if (currentStepIndex >= 4) {
+                cardKE.className = "border-2 border-emerald-500 bg-emerald-50 rounded p-2 text-center transition";
+                mwKE.className = "font-mono text-sm font-extrabold text-emerald-700";
+            } else {
+                cardKE.className = "border border-slate-200 rounded p-2 text-center transition";
+                mwKE.className = "font-mono text-sm font-extrabold text-slate-800";
+            }
+
+            // Update SCADA logs
+            let allLogs = [];
+            for (let i = 0; i <= currentStepIndex; i++) {
+                allLogs = allLogs.concat(simulationSteps[i].logs);
+            }
+            const logsContainer = document.getElementById("scadaLogs");
+            logsContainer.innerHTML = allLogs.slice(-8).map(l => {
+                let colorClass = "text-sky-300";
+                if (l.includes("ALERT") || l.includes("CRITICAL") || l.includes("DEFICIT")) colorClass = "text-red-400 font-bold";
+                else if (l.includes("WARNING") || l.includes("PREEMPTION") || l.includes("SURGE")) colorClass = "text-amber-300";
+                else if (l.includes("QISKIT") || l.includes("QAOA") || l.includes("BENCHMARK")) colorClass = "text-purple-300 font-bold";
+                else if (l.includes("RESOLVED") || l.includes("HUMAN IMPACT") || l.includes("SUSTAINABILITY")) colorClass = "text-emerald-300 font-bold";
+                return `<div class="${colorClass}">${l}</div>`;
+            }).join("");
+            logsContainer.scrollTop = logsContainer.scrollHeight;
+
+            // Render Map
+            renderMap();
+        }
+
+        function renderMap() {
+            const cities = {
+                'Karachi': { lat: 24.8607, lon: 67.0011, name: 'Karachi (KE)', color: (currentStepIndex === 1 || currentStepIndex === 2) ? '#EF4444' : (currentStepIndex >= 5 ? '#10B981' : '#0284C7'), size: 22 },
+                'Multan': { lat: 30.1575, lon: 71.5249, name: 'Multan (MEPCO)', color: '#10B981', size: 16 },
+                'Lahore': { lat: 31.5204, lon: 74.3587, name: 'Lahore (LESCO)', color: (currentStepIndex >= 4) ? '#9333EA' : '#10B981', size: 18 },
+                'Islamabad': { lat: 33.6844, lon: 73.0479, name: 'Islamabad (IESCO)', color: (currentStepIndex >= 4) ? '#0284C7' : '#10B981', size: 18 }
+            };
+
+            const data = [];
+
+            // Corridors
+            const corridors = [['Karachi', 'Multan'], ['Multan', 'Lahore'], ['Lahore', 'Islamabad']];
+            corridors.forEach(([c1, c2]) => {
+                const isKarachiCorridor = (c1 === 'Karachi' || c2 === 'Karachi');
+                const lineColor = (currentStepIndex === 1 && isKarachiCorridor) ? '#EF4444' : '#0284C7';
+                const lineWidth = (currentStepIndex === 1 && isKarachiCorridor) ? 4 : 2.5;
+
+                data.push({
+                    type: 'scattergeo',
+                    lat: [cities[c1].lat, cities[c2].lat],
+                    lon: [cities[c1].lon, cities[c2].lon],
+                    mode: 'lines',
+                    line: { width: lineWidth, color: lineColor },
+                    hoverinfo: 'none',
+                    showlegend: false
+                });
+            });
+
+            // Migration flight arcs on Step 4 & 5
+            if (currentStepIndex >= 4) {
+                // Karachi to Islamabad
+                data.push({
+                    type: 'scattergeo',
+                    lat: [24.8607, 29.2, 33.6844],
+                    lon: [67.0011, 70.1, 73.0479],
+                    mode: 'lines+markers',
+                    line: { width: 3.5, color: '#9333EA', dash: 'dash' },
+                    marker: { size: [0, 8, 12], symbol: 'triangle-up', color: '#9333EA' },
+                    text: ['', '✈ JOB-042 (Urdu LLM 4.2 MW) ➔ Tarbela Hydro', 'Islamabad Hydro DC'],
+                    hoverinfo: 'text',
+                    showlegend: false
+                });
+                // Karachi to Lahore
+                data.push({
+                    type: 'scattergeo',
+                    lat: [24.8607, 28.0, 31.5204],
+                    lon: [67.0011, 71.0, 74.3587],
+                    mode: 'lines+markers',
+                    line: { width: 3, color: '#D97706', dash: 'dot' },
+                    marker: { size: [0, 7, 10], symbol: 'triangle-up', color: '#D97706' },
+                    text: ['', '✈ JOB-088 (Diffusion 3.5 MW) ➔ Lahore', 'Lahore LESCO DC'],
+                    hoverinfo: 'text',
+                    showlegend: false
+                });
+            }
+
+            // City Markers
+            for (let c in cities) {
+                const city = cities[c];
+                data.push({
+                    type: 'scattergeo',
+                    lat: [city.lat],
+                    lon: [city.lon],
+                    mode: 'markers+text',
+                    text: [`<b>${c}</b>`],
+                    textposition: 'top center',
+                    textfont: { family: 'Inter', size: 11, color: '#0F172A' },
+                    marker: {
+                        size: city.size,
+                        color: city.color,
+                        line: { width: 2, color: '#FFFFFF' }
+                    },
+                    hoverinfo: 'text',
+                    hovertext: `<b>${city.name}</b>`,
+                    showlegend: false
+                });
+            }
+
+            const layout = {
+                geo: {
+                    scope: 'asia',
+                    center: { lat: 29.5, lon: 71.2 },
+                    lataxis: { range: [23.5, 36.5] },
+                    lonaxis: { range: [66.0, 76.5] },
+                    showcountries: true,
+                    countrycolor: '#CBD5E1',
+                    showland: true,
+                    landcolor: '#F8FAFC',
+                    showocean: true,
+                    oceancolor: '#EFF6FF',
+                    resolution: 50
+                },
+                margin: { l: 0, r: 0, t: 0, b: 0 },
+                paper_bgcolor: '#FFFFFF',
+                plot_bgcolor: '#FFFFFF'
+            };
+
+            Plotly.react('pakistanMap', data, layout, { responsive: true, displayModeBar: false });
+        }
+
+        function renderQAOAPlot() {
+            const hist = [-12.2, -16.5, -20.1, -22.8, -24.1, -24.8, -24.9];
+            const data = [{
+                x: [1, 2, 3, 4, 5, 6, 7],
+                y: hist,
+                mode: 'lines+markers',
+                line: { color: '#9333EA', width: 2.5 },
+                marker: { size: 6, color: '#9333EA' },
+                name: 'QAOA Energy'
+            }];
+            const layout = {
+                margin: { l: 30, r: 15, t: 10, b: 25 },
+                paper_bgcolor: 'transparent',
+                plot_bgcolor: 'transparent',
+                xaxis: { title: 'COBYLA Iterations', tickfont: { size: 9 }, titlefont: { size: 9 } },
+                yaxis: { title: 'Energy', tickfont: { size: 9 }, titlefont: { size: 9 } },
+                shapes: [{
+                    type: 'line',
+                    x0: 1, x1: 7,
+                    y0: -24.90, y1: -24.90,
+                    line: { color: '#EF4444', width: 1.5, dash: 'dash' }
+                }]
+            };
+            Plotly.react('qaoaMiniPlot', data, layout, { responsive: true, displayModeBar: false });
+        }
+
+        function nextStep() {
+            if (currentStepIndex < simulationSteps.length - 1) {
+                currentStepIndex++;
+                updateUI();
+            }
+        }
+
+        function prevStep() {
+            if (currentStepIndex > 0) {
+                currentStepIndex--;
+                updateUI();
+            }
+        }
+
+        function resetSimulation() {
+            currentStepIndex = 0;
+            if (autoPlayTimer) clearInterval(autoPlayTimer);
+            updateUI();
+        }
+
+        function jumpToStep(idx) {
+            currentStepIndex = idx;
+            updateUI();
+        }
+
+        function toggleAutoPlay() {
+            const btn = document.getElementById("autoPlayBtn");
+            if (autoPlayTimer) {
+                clearInterval(autoPlayTimer);
+                autoPlayTimer = null;
+                btn.innerText = "⚡ Auto-Play";
+                btn.className = "text-xs font-bold bg-slate-800 hover:bg-slate-700 text-sky-300 px-3 py-2 rounded-lg transition border border-slate-700";
+            } else {
+                btn.innerText = "⏸ Pause Auto-Play";
+                btn.className = "text-xs font-bold bg-amber-600 hover:bg-amber-500 text-white px-3 py-2 rounded-lg transition border border-amber-700";
+                autoPlayTimer = setInterval(() => {
+                    if (currentStepIndex < simulationSteps.length - 1) {
+                        nextStep();
+                    } else {
+                        clearInterval(autoPlayTimer);
+                        autoPlayTimer = null;
+                        btn.innerText = "⚡ Auto-Play";
+                        btn.className = "text-xs font-bold bg-slate-800 hover:bg-slate-700 text-sky-300 px-3 py-2 rounded-lg transition border border-slate-700";
+                    }
+                }, 2200);
+            }
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            updateUI();
+        });
+    </script>
+</body>
+</html>
